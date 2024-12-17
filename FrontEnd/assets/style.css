@@ -186,3 +186,25 @@ footer nav ul {
 	margin: 2em
 }
 
+button {
+	min-width: 100px;
+	height: 37px;
+	border-radius: 60px;
+	border: 1px solid #1D6154;
+	background-color: white;
+	font-family: "Syne";
+	font-size: 16px;
+	color: #1D6154;
+}
+
+button:hover {
+	background-color: #1D6154;
+	color: white;
+}
+
+.filter-area {
+	display: flex;
+	justify-content: center;
+	gap: 10px;
+	margin-bottom: 51px;
+}
