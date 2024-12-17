@@ -110,18 +110,15 @@ function displayWorks(works) {
  * @param {object} worksList recuperer depuis l'api.
  */
 function eventFilter(worksList) {
-    console.log("je suis ici")
     const boutonList = document.querySelectorAll(".filter-button");
-    console.log(boutonList)
     boutonList.forEach(button => {
         button.addEventListener("click", (event) =>{
             const buttonTarget = Number(event.target.id);
-            console.log(buttonTarget)
-            if (buttonTarget){
+            if (buttonTarget){ //ci egale plus que 0 filtrer 
                 const filterDisplay = worksList.filter(work => work.categoryId === buttonTarget);
                 gallery.replaceChildren();
                 displayWorks(filterDisplay);
-            } else {
+            } else { //ci egale a 0 nepas filtrer
                 gallery.replaceChildren();
                 displayWorks(worksList);
             };
