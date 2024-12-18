@@ -139,7 +139,7 @@ li:hover {
 }
 #contact {
 	width: 50%;
-margin: auto;
+	margin: auto;
 }
 
 #login {
@@ -147,10 +147,7 @@ margin: auto;
 	margin: auto;
 }
 
-#contact > *, #login > * {
-	text-align: center;
-
-} {
+#contact > * {
 	text-align: center;
 
 }
@@ -196,6 +193,7 @@ input[type="submit"]{
 #login a:hover{
 	border-bottom: 1px solid black;
 }
+
 
 footer nav ul {
 	display: flex;
