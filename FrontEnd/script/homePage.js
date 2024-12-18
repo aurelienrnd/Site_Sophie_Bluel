@@ -1,7 +1,5 @@
 const gallery = document.querySelector(".gallery");
-const portfolio = document.getElementById("portfolio");
-let works = []
-
+let works // Contenue de ma requete api
 
 /**  Récupère la liste des travaux via une requête API.
  * @async
@@ -46,7 +44,7 @@ function createButton(name, id, filterArea) {
  * @getWork function requette api
  * @param {HTMLElement} filterArea Section htm ou se trouve les bouton
  */
-async function getcategories(filterArea) {
+function getcategories(filterArea) {
     const SetName = new Set;
     const SetId = new Set;
     works.forEach(element => {
@@ -68,11 +66,11 @@ async function getcategories(filterArea) {
  * @gallery Une DIV dans le DOM
  * @portfolio Une section dans le DOM
  */
-async function displayButton() {
+function displayButton() {
     // creation de la div 
     const filterArea = document.createElement("div");
     filterArea.classList = "filter-area"
-    console.log(filterArea)
+    const portfolio = document.getElementById("portfolio");
 
     portfolio.appendChild(filterArea);
     portfolio.insertBefore(filterArea, gallery);
