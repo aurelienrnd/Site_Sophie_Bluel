@@ -1,5 +1,6 @@
+let user = 0 // user a une valeur de zero (fals) quand personne n'est connecter
 let loginId
-let user
+
 
 /** Récupère les valeurs email et password du formulaire et teste le format de l'email avec une regex.
  * @function
@@ -39,6 +40,7 @@ async function postId() {
             throw new Error("Erreur:" + reponse.status)
         }
         user = await reponse.json()
+        window.location.href = "index.html"
         
     } catch (error){
         if(error.message === "Erreur:401"){
@@ -52,7 +54,7 @@ async function postId() {
  * @async
  * @function
  */
-export function clickButton(){
+function eventButton(){
     const form = document.getElementById("login-form")
     form.addEventListener("submit", async(event) => {
         event.preventDefault()
@@ -61,3 +63,6 @@ export function clickButton(){
         console.log(user)
     })
 }
+
+//execution
+eventButton()
