@@ -1,5 +1,6 @@
 import {navigation} from "./index.js"
 
+const portfolio = document.getElementById("portfolio");
 const gallery = document.querySelector(".gallery");
 let works // Contenue de ma requete api
 
@@ -22,7 +23,49 @@ async function getWorks() {
 };
 
 
-/* Affichage de la zone de sélection de filtre */
+/*Affichage de la gallery*/
+
+/**  Modifie le DOM pour y afficher des posts
+ * 
+ *  @function
+ *  @gallery Une div html dans le DOM
+ *  @param {object} works recuperer depuis l'api.
+ */
+function displayWorks(works) {
+    works.forEach(element => {
+        const post = document.createElement("figure");
+        post.innerHTML = 
+        `<img src="${element.imageUrl}" alt="${element.title}">
+        <figcaption>${element.title}</figcaption>`;
+        gallery.appendChild(post);
+    });
+};
+
+/** Filtre les travaux a afficher selon le bouton cliquer.
+ * 
+ * @function
+ * @gallery Une div html dans le DOM
+ * @param {object} worksList recuperer depuis l'api.
+ */
+function eventFilter(worksList) {
+    const boutonList = document.querySelectorAll(".filter-button");
+    boutonList.forEach(button => {
+        button.addEventListener("click", (event) =>{
+            const buttonTarget = Number(event.target.id);
+            if (buttonTarget){ //ci egale plus que 0 filtrer 
+                const filterDisplay = worksList.filter(work => work.categoryId === buttonTarget);
+                gallery.replaceChildren();
+                displayWorks(filterDisplay);
+            } else { //ci egale a 0 nepas filtrer
+                gallery.replaceChildren();
+                displayWorks(worksList);
+            };
+        });
+    });
+};
+
+
+/* Affichage et gestion des evenements pour un visiteur non conecter */
 
 /** Créer et associe le bon texte est le bon Id a chaque bouton.
  * 
@@ -72,7 +115,6 @@ function displayButton() {
     // creation de la div 
     const filterArea = document.createElement("div");
     filterArea.classList = "filter-area"
-    const portfolio = document.getElementById("portfolio");
 
     portfolio.appendChild(filterArea);
     portfolio.insertBefore(filterArea, gallery);
@@ -85,58 +127,49 @@ function displayButton() {
 };
 
 
-/*Affichage de la gallery*/
+/*Affichage et gestion des evenement pour un utilisateur coneceter*/
+function logout(bouton) {
+    bouton.addEventListener("click", () => {
+        localStorage.removeItem("user")
+        window.location.reload()
+    })
+}
 
-/**  Modifie le DOM pour y afficher des posts
- * 
- *  @function
- *  @gallery Une div html dans le DOM
- *  @param {object} works recuperer depuis l'api.
- */
-function displayWorks(works) {
-    works.forEach(element => {
-        const post = document.createElement("figure");
-        post.innerHTML = 
-        `<img src="${element.imageUrl}" alt="${element.title}">
-        <figcaption>${element.title}</figcaption>`;
-        gallery.appendChild(post);
-    });
-};
+function displayLogout() {
+    const logoutBtn = document.createElement("li")
+    logoutBtn.innerText = "logout"
+    const navigationList = document.getElementById("nav-list")
+    const loginBtn = document.getElementById("nav-login")
+    navigationList.replaceChild(logoutBtn, loginBtn)
+    logout(logoutBtn)
+}
 
-/** Filtre les travaux a afficher selon le bouton cliquer.
- * 
- * @function
- * @gallery Une div html dans le DOM
- * @param {object} worksList recuperer depuis l'api.
- */
-function eventFilter(worksList) {
-    const boutonList = document.querySelectorAll(".filter-button");
-    boutonList.forEach(button => {
-        button.addEventListener("click", (event) =>{
-            const buttonTarget = Number(event.target.id);
-            if (buttonTarget){ //ci egale plus que 0 filtrer 
-                const filterDisplay = worksList.filter(work => work.categoryId === buttonTarget);
-                gallery.replaceChildren();
-                displayWorks(filterDisplay);
-            } else { //ci egale a 0 nepas filtrer
-                gallery.replaceChildren();
-                displayWorks(worksList);
-            };
-        });
-    });
-};
-
-async function homePage() {
+/*Visiteur*/
+async function homePageVisiteur() {
     await getWorks()
     displayButton()
     displayWorks(works)
     eventFilter(works)
 }
 
+/*Utilisateur*/
+async function homePageUtilisateur () {
+    await getWorks()
+    displayWorks(works)
+    displayLogout()
+}
+
+
+/*execution du script*/
 navigation()
-homePage()
-
-
+const reponse = localStorage.getItem("user")
+if (!reponse){
+    homePageVisiteur()
+} else{
+    homePageUtilisateur()
+}
+const user = JSON.parse(reponse)
+console.log(user)
 
 
 

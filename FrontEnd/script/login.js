@@ -1,6 +1,4 @@
 import {navigation} from "./index.js"
-
-let user = 0 // user a une valeur de zero (fals) quand personne n'est connecter
 let loginId
 
 
@@ -41,9 +39,10 @@ async function postId() {
         if(!reponse.ok){
             throw new Error("Erreur:" + reponse.status)
         }
-        user = await reponse.json()
+        const user = await reponse.json()
+        localStorage.setItem("user", JSON.stringify(user));
         window.location.href = "index.html"
-        
+
     } catch (error){
         if(error.message === "Erreur:401"){
             alert("L'email et le mot de passe ne corespondent pas")
@@ -62,7 +61,6 @@ function eventButton(){
         event.preventDefault()
         caughtId()
         await postId()
-        console.log(user)
     })
 }
 
