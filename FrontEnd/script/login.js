@@ -12,32 +12,34 @@ function coughtId(){
     }
 }
 
-async function connection() {
+async function postId() {
     try{
-        const postId = await fetch("http://localhost:5678/api/users/login", {
+        const reponse = await fetch("http://localhost:5678/api/users/login", {
             method: "POST",
             headers: {
                 "Content-Type" : "application/json"
             },
             body: JSON.stringify(loginId)
         })
-        if(!postId.ok){
-            throw new Error("Erreur:" + postId.status)
+        if(!reponse.ok){
+            throw new Error("Erreur:" + reponse.status)
         }
-        return await postId.json()
+        user = await reponse.json()
         
     } catch (error){
+        if(error.message === "Erreur:401"){
+            alert("L'email et le mot de passe ne corespondent pas")
+        }
         console.error("Connection echouer", error.message)
-        alert("L'adresse email ou le mots de passe de coresponde pas")
     }
 }
 
 export function clickButton(){
     const form = document.getElementById("login-form")
-    form.addEventListener("submit", (event) => {
+    form.addEventListener("submit", async(event) => {
         event.preventDefault()
         coughtId()
-        user = connection()
+        await postId()
         console.log(user)
     })
 }
