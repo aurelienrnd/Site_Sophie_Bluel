@@ -1,3 +1,5 @@
+import {navigation} from "./index.js"
+
 let user = 0 // user a une valeur de zero (fals) quand personne n'est connecter
 let loginId
 
@@ -64,5 +66,6 @@ function eventButton(){
     })
 }
 
-//execution
+// execution
+navigation()
 eventButton()

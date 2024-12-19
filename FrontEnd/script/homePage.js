@@ -1,3 +1,5 @@
+import {navigation} from "./index.js"
+
 const gallery = document.querySelector(".gallery");
 let works // Contenue de ma requete api
 
@@ -124,14 +126,15 @@ function eventFilter(worksList) {
     });
 };
 
-// Exportation des fonction sur index.js
-export async function homePage() {
+async function homePage() {
     await getWorks()
     displayButton()
     displayWorks(works)
     eventFilter(works)
 }
 
+navigation()
+homePage()
 
 
 
