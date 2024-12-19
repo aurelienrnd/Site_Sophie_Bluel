@@ -1,6 +1,12 @@
 let loginId
 let user
-function coughtId(){
+
+/** Récupère les valeurs email et password du formulaire et teste le format de l'email avec une regex.
+ * @function
+ * @emailRegex : Crée une expression régulière qui permet de tester l'email
+ * @loginId : Reçoit un objet {email, password}
+ */
+function caughtId(){
     const email = document.getElementById("login-email").value
     const password = document.getElementById("login-password").value
 
@@ -12,6 +18,14 @@ function coughtId(){
     }
 }
 
+/** Envoie les identifiants de connexion via une requête API et reçoit un id et un token utilisateur.
+ * @async
+ * @function
+ * @returns {Promise<Object<{userId, token}>>} Un id et un token unique.
+ * @throws {Error} Si la requête échoue ou si une erreur HTTP se produit.
+ * @loginId : Un objet {email, password}
+ * @user : Reçoit un objet {userId, token}
+ */
 async function postId() {
     try{
         const reponse = await fetch("http://localhost:5678/api/users/login", {
@@ -34,11 +48,15 @@ async function postId() {
     }
 }
 
+/** Exécute un ensemble de fonctions au clic sur le bouton submit.
+ * @async
+ * @function
+ */
 export function clickButton(){
     const form = document.getElementById("login-form")
     form.addEventListener("submit", async(event) => {
         event.preventDefault()
-        coughtId()
+        caughtId()
         await postId()
         console.log(user)
     })
