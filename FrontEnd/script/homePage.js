@@ -144,6 +144,21 @@ function displayLogout() {
     logout(logoutBtn)
 }
 
+function displayEditionElement() {
+    const editorBar = document.getElementById("edit-bar")
+    const editorButon = document.getElementById("modifierBtn")
+    editorBar.style.display = "flex"
+    editorButon.style.display = "block"
+}
+
+
+
+
+
+
+
+
+
 /*Visiteur*/
 async function homePageVisiteur() {
     await getWorks()
@@ -157,6 +172,7 @@ async function homePageUtilisateur () {
     await getWorks()
     displayWorks(works)
     displayLogout()
+    displayEditorElement()
 }
 
 

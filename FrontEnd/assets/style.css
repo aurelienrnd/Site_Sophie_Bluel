@@ -223,3 +223,25 @@ button:hover {
 	gap: 10px;
 	margin-bottom: 51px;
 }
+
+#edit-bar{
+	display: none;
+	height:59px ;
+	background-color: black;
+	color: white;
+	justify-content: center;
+	align-items: center;
+	gap: 11px;
+	
+	/*
+	position: relative;
+	width: 100vw;
+	right: calc((100vw - 1140px) / 2);*/
+}
+
+#modifierBtn {
+	display: none;
+	position: absolute;
+	top : 103%;
+	left: 64%
+}
