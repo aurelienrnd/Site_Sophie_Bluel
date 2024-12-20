@@ -172,7 +172,7 @@ async function homePageUtilisateur () {
     await getWorks()
     displayWorks(works)
     displayLogout()
-    displayEditorElement()
+    displayEditionElement()
 }
 
 
