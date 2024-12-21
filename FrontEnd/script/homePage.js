@@ -126,6 +126,17 @@ function displayButton() {
     getcategories(filterArea);
 };
 
+/** Change le style des elements d'edition pour les masquer dans le DOM
+ * 
+ * @function
+ */
+function hiddenEditionElement() {
+    const hiddenElement = document.querySelectorAll(".hidden-element")
+    hiddenElement.forEach(element => {
+        element.style.display = "none"
+    })
+}
+
 
 /*Affichage et gestion des evenement pour un utilisateur coneceter*/
 
@@ -154,16 +165,12 @@ function displayLogout() {
     logout(logoutBtn)
 }
 
-/** Change le style de la bar et bouton d'edition pour les afficher dans le DOM
- * 
- * @function
- */
-function displayEditionElement() {
-    const editorBar = document.getElementById("edit-bar")
-    const editorButon = document.getElementById("modifierBtn")
-    editorBar.style.display = "flex"
-    editorButon.style.display = "block"
+function margin(){
+    const header = document.querySelector("header")
+    console.log(header)
+    header.style.marginTop = "97px"
 }
+
 
 
 /*********************** Fonction Visiteur ou Utilisateur ***********************/
@@ -175,6 +182,7 @@ async function homePageVisiteur() {
     displayButton()
     displayWorks(works)
     eventFilter(works)
+    hiddenEditionElement()
 }
 
 /* Utilisateur  
@@ -183,7 +191,8 @@ async function homePageUtilisateur () {
     await getWorks()
     displayWorks(works)
     displayLogout()
-    displayEditionElement()
+    margin()
+    
 }
 
 
