@@ -128,6 +128,12 @@ function displayButton() {
 
 
 /*Affichage et gestion des evenement pour un utilisateur coneceter*/
+
+/** Au click, suprime la donnée user du local storage 
+ * 
+ * @function
+ * @param {HTMLElement} bouton balide li pour ce deconnecter 
+ */
 function logout(bouton) {
     bouton.addEventListener("click", () => {
         localStorage.removeItem("user")
@@ -135,6 +141,10 @@ function logout(bouton) {
     })
 }
 
+/** Crée une balise li logout et l'insser a la place de la balise login 
+ * 
+ * @function
+ */
 function displayLogout() {
     const logoutBtn = document.createElement("li")
     logoutBtn.innerText = "logout"
@@ -144,6 +154,10 @@ function displayLogout() {
     logout(logoutBtn)
 }
 
+/** Change le style de la bar et bouton d'edition pour les afficher dans le DOM
+ * 
+ * @function
+ */
 function displayEditionElement() {
     const editorBar = document.getElementById("edit-bar")
     const editorButon = document.getElementById("modifierBtn")
@@ -152,14 +166,10 @@ function displayEditionElement() {
 }
 
 
+/*********************** Fonction Visiteur ou Utilisateur ***********************/
 
-
-
-
-
-
-
-/*Visiteur*/
+/* Visiteur
+ *  Affiche le site pour une personne non conneceter */
 async function homePageVisiteur() {
     await getWorks()
     displayButton()
@@ -167,7 +177,8 @@ async function homePageVisiteur() {
     eventFilter(works)
 }
 
-/*Utilisateur*/
+/* Utilisateur  
+*  Affiche le site pour une personne conneceter */
 async function homePageUtilisateur () {
     await getWorks()
     displayWorks(works)
@@ -176,8 +187,10 @@ async function homePageUtilisateur () {
 }
 
 
-/*execution du script*/
+/*********************** Execution du script ***********************/
+
 navigation()
+/*Verifie si l'utilisateur est connectée*/
 const reponse = localStorage.getItem("user")
 if (!reponse){
     homePageVisiteur()
