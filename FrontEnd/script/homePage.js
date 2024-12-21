@@ -56,7 +56,7 @@ function eventFilter(worksList) {
                 const filterDisplay = worksList.filter(work => work.categoryId === buttonTarget);
                 gallery.replaceChildren();
                 displayWorks(filterDisplay);
-            } else { //ci egale a 0 nepas filtrer
+            } else { //ci egale a 0 pas filtrer
                 gallery.replaceChildren();
                 displayWorks(worksList);
             };
@@ -145,8 +145,14 @@ function hiddenEditionElement() {
  * @function
  * @param {HTMLElement} bouton balide li pour ce deconnecter 
  */
-function logout(bouton) {
-    bouton.addEventListener("click", () => {
+function logout() {
+    const loginButton = document.getElementById("nav-login")
+    loginButton.style.display = "none"
+    console.log(loginButton)
+
+    const logoutButton = document.getElementById("nav-logout")
+    console.log(logoutButton)
+    logoutButton.addEventListener("click", () => {
         localStorage.removeItem("user")
         window.location.reload()
     })
@@ -167,10 +173,8 @@ function displayLogout() {
 
 function margin(){
     const header = document.querySelector("header")
-    console.log(header)
     header.style.marginTop = "97px"
 }
-
 
 
 /*********************** Fonction Visiteur ou Utilisateur ***********************/
@@ -190,7 +194,7 @@ async function homePageVisiteur() {
 async function homePageUtilisateur () {
     await getWorks()
     displayWorks(works)
-    displayLogout()
+    logout()
     margin()
     
 }
@@ -201,13 +205,14 @@ async function homePageUtilisateur () {
 navigation()
 /*Verifie si l'utilisateur est connectée*/
 const reponse = localStorage.getItem("user")
+const user = JSON.parse(reponse)
+console.log(user)
 if (!reponse){
     homePageVisiteur()
 } else{
     homePageUtilisateur()
 }
-const user = JSON.parse(reponse)
-console.log(user)
+
 
 
 

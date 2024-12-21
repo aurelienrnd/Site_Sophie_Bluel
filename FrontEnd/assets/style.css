@@ -256,8 +256,11 @@ button:hover {
 }
 
 #modifierBtn {
-	display: none;
-	position: absolute;
-	top : 103%;
-	left: 64%
+	position: relative;
+	bottom: 50px;
+} 
+
+#modifierBtn p {
+	width: 70%;
+	text-align: end;
 }
