@@ -1,4 +1,3 @@
-import {navigation} from "./index.js"
 let loginId
 
 
@@ -65,5 +64,4 @@ function eventButton(){
 }
 
 // execution
-navigation()
 eventButton()

@@ -46,6 +46,11 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
+
+a{
+	text-decoration: none;
+	color: black;
+}
 /** end reset css**/
 body {
 	max-width: 1140px;
@@ -93,12 +98,12 @@ nav ul {
 
 }
 
-nav li {
+nav a {
 	padding: 0 10px;
 	font-size: 1.2em;
 }
 
-li:hover {
+a:hover {
 	color: #B1663C;
 }
 

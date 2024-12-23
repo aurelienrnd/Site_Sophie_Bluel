@@ -1,5 +1,3 @@
-import {navigation} from "./index.js"
-
 const portfolio = document.getElementById("portfolio");
 const gallery = document.querySelector(".gallery");
 let works // Contenue de ma requete api
@@ -187,7 +185,6 @@ async function homePageUtilisateur () {
 
 /*********************** Execution du script ***********************/
 
-navigation()
 /*Verifie si l'utilisateur est connecté*/
 const reponse = localStorage.getItem("user")
 const user = JSON.parse(reponse)
