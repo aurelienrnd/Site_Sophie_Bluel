@@ -29,7 +29,7 @@ async function getWorks() {
  * 
  *  @function
  *  @gallery Une div html dans le DOM
- *  @param {object} works recuperer depuis l'api.
+ *  @param {object} works recuperé depuis l'api.
  */
 function displayWorks(works) {
     works.forEach(element => {
@@ -45,7 +45,7 @@ function displayWorks(works) {
  * 
  * @function
  * @gallery Une div html dans le DOM
- * @param {object} worksList recuperer depuis l'api.
+ * @param {object} worksList recuperé depuis l'api.
  */
 function eventFilter(worksList) {
     const boutonList = document.querySelectorAll(".filter-button");
@@ -65,12 +65,12 @@ function eventFilter(worksList) {
 };
 
 
-/* Affichage et gestion des evenements pour un visiteur non conecter */
+/* Affichage et gestion des evenements pour un visiteur non connecté */
 
-/** Créer et associe le bon texte est le bon Id a chaque bouton.
+/** Créer et associe le bon texte et le bon Id a chaque bouton.
  * 
  * @function
- * @param {HTMLElement} filterArea Section htm ou se trouve les bouton
+ * @param {HTMLElement} filterArea Section htm ou se trouve les boutons
  * @param {string} name Le texte à afficher dans le bouton.
  * @param {number} id L'identifiant unique du bouton
  */
@@ -87,7 +87,7 @@ function createButton(name, id, filterArea) {
  * @async
  * @function
  * @getWork function requette api
- * @param {HTMLElement} filterArea Section htm ou se trouve les bouton
+ * @param {HTMLElement} filterArea Section htm ou se trouvent les boutons
  */
 function getcategories(filterArea) {
     const SetName = new Set;
@@ -105,7 +105,7 @@ function getcategories(filterArea) {
     };
 };
 
-/** Ajoute au DOM une liste de bouton.
+/** Ajoute au DOM une liste de boutons.
  * 
  * @function
  * @gallery Une DIV dans le DOM
@@ -138,37 +138,22 @@ function hiddenEditionElement() {
 }
 
 
-/*Affichage et gestion des evenement pour un utilisateur coneceter*/
+/*Affichage et gestion des evenements pour un utilisateur conneté*/
 
 /** Au click, suprime la donnée user du local storage 
  * 
  * @function
- * @param {HTMLElement} bouton balide li pour ce deconnecter 
+ * @param {HTMLElement} bouton balise li pour ce déconnecté
  */
 function logout() {
     const loginButton = document.getElementById("nav-login")
     loginButton.style.display = "none"
-    console.log(loginButton)
 
     const logoutButton = document.getElementById("nav-logout")
-    console.log(logoutButton)
     logoutButton.addEventListener("click", () => {
         localStorage.removeItem("user")
         window.location.reload()
     })
-}
-
-/** Crée une balise li logout et l'insser a la place de la balise login 
- * 
- * @function
- */
-function displayLogout() {
-    const logoutBtn = document.createElement("li")
-    logoutBtn.innerText = "logout"
-    const navigationList = document.getElementById("nav-list")
-    const loginBtn = document.getElementById("nav-login")
-    navigationList.replaceChild(logoutBtn, loginBtn)
-    logout(logoutBtn)
 }
 
 function margin(){
@@ -180,7 +165,7 @@ function margin(){
 /*********************** Fonction Visiteur ou Utilisateur ***********************/
 
 /* Visiteur
- *  Affiche le site pour une personne non conneceter */
+ *  Affiche le site pour une personne non connecté */
 async function homePageVisiteur() {
     await getWorks()
     displayButton()
@@ -190,7 +175,7 @@ async function homePageVisiteur() {
 }
 
 /* Utilisateur  
-*  Affiche le site pour une personne conneceter */
+*  Affiche le site pour une personne connecté */
 async function homePageUtilisateur () {
     await getWorks()
     displayWorks(works)
@@ -203,7 +188,7 @@ async function homePageUtilisateur () {
 /*********************** Execution du script ***********************/
 
 navigation()
-/*Verifie si l'utilisateur est connectée*/
+/*Verifie si l'utilisateur est connecté*/
 const reponse = localStorage.getItem("user")
 const user = JSON.parse(reponse)
 console.log(user)

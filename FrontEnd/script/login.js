@@ -2,7 +2,7 @@ import {navigation} from "./index.js"
 let loginId
 
 
-/** Récupère les valeurs email et password du formulaire et teste le format de l'email avec une regex.
+/** Récupère les valeurs email et password du formulaire et teste le format de l'email avec une regEx.
  * @function
  * @emailRegex : Crée une expression régulière qui permet de tester l'email
  * @loginId : Reçoit un objet {email, password}
@@ -44,8 +44,8 @@ async function postId() {
         window.location.href = "index.html"
 
     } catch (error){
-        if(error.message === "Erreur:401"){
-            alert("L'email et le mot de passe ne corespondent pas")
+        if(error.message === "Erreur:401" || "ERR_CONNECTION_REFUSED"){
+            alert("L'email ou le mot de passe ne corespondent pas")
         }
         console.error("Connection echouer", error.message)
     }
