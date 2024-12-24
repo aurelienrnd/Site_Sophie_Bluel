@@ -63,7 +63,7 @@ function eventFilter(worksList) {
 };
 
 
-/* Affichage et gestion des evenements pour un visiteur non connecté */
+/* Affichage et gestion des bouton de la zone de filtre */
 
 /** Créer et associe le bon texte et le bon Id a chaque bouton.
  * 
@@ -124,19 +124,22 @@ function displayButton() {
     getcategories(filterArea);
 };
 
-/** Change le style des elements d'edition pour les masquer dans le DOM
+
+/* Gestion de l'affichage des elements entre le mode editionOff et editionOn */
+
+/** Masque et ajuste le margin de certain element en mode offEdition
  * 
  * @function
  */
 function hiddenEditionElement() {
-    const hiddenElement = document.querySelectorAll(".hidden-element")
+    const hiddenElement = document.querySelectorAll(".editionElements")
     hiddenElement.forEach(element => {
         element.style.display = "none"
     })
+    const body = document.querySelector("body")
+    body.classList.remove("editionActive")
+    console.log(body)
 }
-
-
-/*Affichage et gestion des evenements pour un utilisateur conneté*/
 
 /** Au click, suprime la donnée user du local storage 
  * 
@@ -154,17 +157,12 @@ function logout() {
     })
 }
 
-function margin(){
-    const header = document.querySelector("header")
-    header.style.marginTop = "97px"
-}
 
+/*********************** dispaly Homepage ***********************/
 
-/*********************** Fonction Visiteur ou Utilisateur ***********************/
-
-/* Visiteur
+/* Home page edition mode off
  *  Affiche le site pour une personne non connecté */
-async function homePageVisiteur() {
+async function dispalayEditionOff() {
     await getWorks()
     displayButton()
     displayWorks(works)
@@ -172,13 +170,13 @@ async function homePageVisiteur() {
     hiddenEditionElement()
 }
 
-/* Utilisateur  
+/* Home page edition mode on
 *  Affiche le site pour une personne connecté */
-async function homePageUtilisateur () {
+async function displayEditionOn() {
     await getWorks()
     displayWorks(works)
     logout()
-    margin()
+
     
 }
 
@@ -190,9 +188,9 @@ const reponse = localStorage.getItem("user")
 const user = JSON.parse(reponse)
 console.log(user)
 if (!reponse){
-    homePageVisiteur()
+    dispalayEditionOff()
 } else{
-    homePageUtilisateur()
+    displayEditionOn()
 }
 
 

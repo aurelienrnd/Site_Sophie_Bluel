@@ -1,20 +1,16 @@
-let loginId
-
-
-/** Récupère les valeurs email et password du formulaire et teste le format de l'email avec une regEx.
+/** Teste le format de l'email avec une regEx.
  * @function
+ * @returns {bool} true or false ci l'email passe le test ou pas de la regEx
+ * @param {string} email : email de l'utilisateur recupere depuis le formulaire 
  * @emailRegex : Crée une expression régulière qui permet de tester l'email
- * @loginId : Reçoit un objet {email, password}
  */
-function caughtId(){
-    const email = document.getElementById("login-email").value
-    const password = document.getElementById("login-password").value
-
+function verifyEmail(email){
     const emailRegx = new RegExp(/^[a-zA-Z0-9\.]+@[a-zA-Z]+\.[a-zA-Z]+$/)
-    if(!emailRegx.test(email)){
-        alert("email non valide")
+    if(emailRegx.test(email)){
+        return true
     } else {
-        loginId = {email, password}
+        alert("email non valide")
+        return false
     }
 }
 
@@ -23,10 +19,10 @@ function caughtId(){
  * @function
  * @returns {Promise<Object<{userId, token}>>} Un id et un token unique.
  * @throws {Error} Si la requête échoue ou si une erreur HTTP se produit.
- * @loginId : Un objet {email, password}
+ * @param {object} loginId : {email, pasword} de l'utilisateur
  * @user : Reçoit un objet {userId, token}
  */
-async function postId() {
+async function postId(loginId) {
     try{
         const reponse = await fetch("http://localhost:5678/api/users/login", {
             method: "POST",
@@ -43,23 +39,27 @@ async function postId() {
         window.location.href = "index.html"
 
     } catch (error){
-        if(error.message === "Erreur:401" || "ERR_CONNECTION_REFUSED"){
+        console.log(error)
+        if(error.message === "Erreur:401"){
             alert("L'email ou le mot de passe ne corespondent pas")
         }
         console.error("Connection echouer", error.message)
     }
 }
 
-/** Exécute un ensemble de fonctions au clic sur le bouton submit.
+/** Au clic sur le bouton, récupérer l'email et le mots de passe saisie par l'utilisateur
  * @async
  * @function
  */
 function eventButton(){
     const form = document.getElementById("login-form")
     form.addEventListener("submit", async(event) => {
+        const email = document.getElementById("login-email").value
+        const password = document.getElementById("login-password").value
         event.preventDefault()
-        caughtId()
-        await postId()
+        if(veryfyEmail(email)){
+            await postId({email, password})
+        }
     })
 }
 

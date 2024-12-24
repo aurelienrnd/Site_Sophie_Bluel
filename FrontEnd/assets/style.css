@@ -51,20 +51,10 @@ a{
 	text-decoration: none;
 	color: black;
 }
+
 /** end reset css**/
-body {
-	max-width: 1140px;
-	margin:auto;
-	font-family: 'Work Sans' ;
-	font-size: 14px;
-}
 
-header {
-	display: flex;
-	justify-content: space-between;
-	margin: 50px 0
-}
-
+/**** General ****/
 section {
 	margin: 50px 0
 }
@@ -91,6 +81,46 @@ h2{
 	font-size: 30px;
 	color: #1D6154
 }
+
+a:hover {
+	color: #B1663C;
+}
+
+/**** Body ****/
+#edit-bar{
+	display: flex;
+	height:59px ;
+	background-color: black;
+	color: white;
+	justify-content: center;
+	align-items: center;
+	gap: 10px;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+
+}
+
+body.editionActive {
+	margin-top: 70px;
+}
+
+body {
+	max-width: 1140px;
+	margin:auto;
+	font-family: 'Work Sans' ;
+	font-size: 14px;
+}
+
+
+/**** header ****/
+header {
+	display: flex;
+	justify-content: space-between;
+	margin: 50px 0
+}
+
 nav ul {
 	display: flex;
 	align-items: center;
@@ -103,10 +133,8 @@ nav a {
 	font-size: 1.2em;
 }
 
-a:hover {
-	color: #B1663C;
-}
 
+/**** introduction ****/
 #introduction {
 	display: flex;
 	align-items: center;
@@ -134,10 +162,49 @@ a:hover {
 	margin-bottom: 0.5em;
 }
 
+
+/**** portfolio ****/
+.title-portfolio{
+	display: flex;
+	align-items: center;
+	justify-content: end;
+	align-items: center;
+	padding-bottom: 1em;
+}
+
 #portfolio h2 {
 	text-align: center;
-	margin-bottom: 1em;
+	width: 25%;
+	
 }
+
+.title-portfolio div{
+	width: 37.5%;
+}
+
+.filter-area {
+	display: flex;
+	justify-content: center;
+	gap: 10px;
+	margin-bottom: 51px;
+}
+
+button {
+	min-width: 100px;
+	height: 37px;
+	border-radius: 60px;
+	border: 1px solid #1D6154;
+	background-color: white;
+	font-family: "Syne";
+	font-size: 16px;
+	color: #1D6154;
+}
+
+button:hover {
+	background-color: #1D6154;
+	color: white;
+}
+
 .gallery {
 	width: 100%;
 	display: grid;
@@ -150,6 +217,9 @@ a:hover {
 	width: 100%;
 
 }
+
+
+/**** contact && login ****/
 #contact {
 	width: 50%;
 	margin: auto;
@@ -211,6 +281,8 @@ input[type="submit"]{
 	border-bottom: 1px solid black;
 }
 
+
+/**** footer ****/
 footer nav ul {
 	display: flex;
 	justify-content: flex-end;
@@ -218,54 +290,3 @@ footer nav ul {
 }
 
 
-/***** elements n'aparaissant que non conecter *****/
-.filter-area {
-	display: flex;
-	justify-content: center;
-	gap: 10px;
-	margin-bottom: 51px;
-}
-
-
-button {
-	min-width: 100px;
-	height: 37px;
-	border-radius: 60px;
-	border: 1px solid #1D6154;
-	background-color: white;
-	font-family: "Syne";
-	font-size: 16px;
-	color: #1D6154;
-}
-
-button:hover {
-	background-color: #1D6154;
-	color: white;
-}
-
-
-/***** elements n'aparaissant que conecter *****/
-#edit-bar{
-	display: flex;
-	height:59px ;
-	background-color: black;
-	color: white;
-	justify-content: center;
-	align-items: center;
-	gap: 10px;
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-
-}
-
-#modifierBtn {
-	position: relative;
-	bottom: 50px;
-} 
-
-#modifierBtn p {
-	width: 70%;
-	text-align: end;
-}
