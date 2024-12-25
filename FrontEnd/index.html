@@ -47,13 +47,25 @@
 		<div class="title-portfolio">
 			<h2>Mes Projets</h2>
 			<div>
-				<span class="editionElements" href="#" style="cursor: pointer;">
+				<span id="modalButton" class="editionElements" href="#" style="cursor: pointer;">
 					<i class="fa-regular fa-pen-to-square"></i>modifier
 				</span>
+				
+				<aside id="modal-overlay">
+					<div id="modal">
+						<h3>Galerie photo</h3>
+						<i class="fa-solid fa-xmark"></i>
+						<div id="modal-gallery" class="gallery">
+							<!-- Ajout de balises figure contenant différents post avec home_page.js -->
+						</div>
+						<button>Ajouter une photo</button>
+					</div>					
+				
+				</aside>
 			</div>
 		</div>
 		<!-- Mode edition off : ajout d'une div contenant des btns filtre avec a home_page.js -->
-		<div class="gallery">
+		<div id="portfolio-gallery" class="gallery">
 			<!-- Ajout de balises figure contenant différents post avec home_page.js -->
 		</div>
 	</section>

@@ -1,5 +1,7 @@
 const portfolio = document.getElementById("portfolio");
-const gallery = document.querySelector(".gallery");
+const galleries = document.querySelectorAll(".gallery")
+const galleryPortfolio = galleries[1]
+const galleryModal = galleries[0]
 let works // Contenue de ma requete api
 
 /**  Récupère la liste des travaux via une requête API.
@@ -20,22 +22,20 @@ async function getWorks() {
     };
 };
 
-
-/*Affichage de la gallery*/
-
 /**  Modifie le DOM pour y afficher des posts
  * 
  *  @function
  *  @gallery Une div html dans le DOM
  *  @param {object} works recuperé depuis l'api.
  */
-function displayWorks(works) {
+function displayWorks(works, gallery) {
     works.forEach(element => {
-        const post = document.createElement("figure");
-        post.innerHTML = 
-        `<img src="${element.imageUrl}" alt="${element.title}">
+        const figure = document.createElement("figure");
+        figure.innerHTML = `
+        <img src="${element.imageUrl}" alt="${element.title}">
+        <i class="fa-solid fa-trash-can"></i>
         <figcaption>${element.title}</figcaption>`;
-        gallery.appendChild(post);
+        gallery.appendChild(figure);
     });
 };
 
@@ -53,17 +53,14 @@ function eventFilter(worksList) {
             if (buttonTarget){ //ci egale plus que 0 filtrer 
                 const filterDisplay = worksList.filter(work => work.categoryId === buttonTarget);
                 gallery.replaceChildren();
-                displayWorks(filterDisplay);
+                displayWorks(filterDisplay, gallery);
             } else { //ci egale a 0 pas filtrer
                 gallery.replaceChildren();
-                displayWorks(worksList);
+                displayWorks(worksList, gallery);
             };
         });
     });
 };
-
-
-/* Affichage et gestion des bouton de la zone de filtre */
 
 /** Créer et associe le bon texte et le bon Id a chaque bouton.
  * 
@@ -109,7 +106,7 @@ function getcategories(filterArea) {
  * @gallery Une DIV dans le DOM
  * @portfolio Une section dans le DOM
  */
-function displayButton() {
+function displayButton(gallery) {
     // creation de la div 
     const filterArea = document.createElement("div");
     filterArea.classList = "filter-area"
@@ -123,9 +120,6 @@ function displayButton() {
     // creer un bouton associer au bon texte
     getcategories(filterArea);
 };
-
-
-/* Gestion de l'affichage des elements entre le mode editionOff et editionOn */
 
 /** Masque et ajuste le margin de certain element en mode offEdition
  * 
@@ -158,24 +152,39 @@ function logout() {
 }
 
 
+
+
+/*********************** dispaly Modal ***********************/
+
+function dispalyModal(works, gallery,){
+    const buttun = document.getElementById("modalButton")
+    buttun.addEventListener("click", () => {
+        const modal = document.getElementById("modal-overlay")
+        modal.style.display = "flex"
+        displayWorks(works, gallery)
+    })
+}
+
 /*********************** dispaly Homepage ***********************/
 
 /* Home page edition mode off
  *  Affiche le site pour une personne non connecté */
 async function dispalayEditionOff() {
-    await getWorks()
-    displayButton()
-    displayWorks(works)
-    eventFilter(works)
     hiddenEditionElement()
+    await getWorks()
+    displayButton(galleryPortfolio)
+    displayWorks(works, galleryPortfolio)
+    eventFilter(works, galleryPortfolio)
+    
 }
 
 /* Home page edition mode on
 *  Affiche le site pour une personne connecté */
 async function displayEditionOn() {
     await getWorks()
-    displayWorks(works)
+    displayWorks(works, galleryPortfolio)
     logout()
+    dispalyModal(works, galleryModal)
 
     
 }
