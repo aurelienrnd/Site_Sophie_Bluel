@@ -14,7 +14,7 @@
 	<script async src="script/homePage.js" type="module"></script>
 </head>
 <body  class="editionActive">
-	<div id="edit-bar" class="editionElements">
+	<div id="edit-bar" class="editionElements"> 
 		<i class="fa-regular fa-pen-to-square"></i><span>Mode édition</span>
 	</div>
 	
@@ -31,7 +31,7 @@
 </header>
 
 <main>
-	<section id="introduction">
+	<section id="introduction"> <!-- Mode edition off : style display:none -->
 		<figure>
 			<img src="./assets/images/sophie-bluel.png" alt="">
 		</figure>
@@ -47,25 +47,35 @@
 		<div class="title-portfolio">
 			<h2>Mes Projets</h2>
 			<div>
-				<span id="modalButton" class="editionElements" href="#" style="cursor: pointer;">
+				<span id="modalButton" class="editionElements" href="#" style="cursor: pointer"> <!-- Mode edition off : style display:none -->
 					<i class="fa-regular fa-pen-to-square"></i>modifier
 				</span>
 				
 				<aside id="modal-overlay">
-					<div id="modal">
-						<h3>Galerie photo</h3>
-						<i class="fa-solid fa-xmark"></i>
-						<div id="modal-gallery" class="gallery">
-							<!-- Ajout de balises figure contenant différents post avec home_page.js -->
+					<section id="modal">
+						<div id="header-modal">
+							<nav>
+								<ul id="nav-modal">
+									<li><i class="fa-solid fa-xmark"></i></li>
+									<li><!-- balise <i> implémenter avec modal.js --></li>
+								</ul>
+							</nav>
+							<h3 id="title-modal"><!-- implémenter avec modal.js --></h3>
 						</div>
-						<button>Ajouter une photo</button>
-					</div>					
-				
+
+						<div id="main-modal"><!-- contenue implémenter avec modal.js --></div>
+
+						<div id="footer-modal">
+							<button id="modal-btn"><!-- implémenter avec modal.js --></button>
+						</div>
+					</section>					
 				</aside>
 			</div>
 		</div>
+
 		<!-- Mode edition off : ajout d'une div contenant des btns filtre avec a home_page.js -->
-		<div id="portfolio-gallery" class="gallery">
+
+		<div id="portfolio-gallery">
 			<!-- Ajout de balises figure contenant différents post avec home_page.js -->
 		</div>
 	</section>

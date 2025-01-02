@@ -1,8 +1,7 @@
+import {modalOn} from "./modal.js"
 const portfolio = document.getElementById("portfolio");
-const galleries = document.querySelectorAll(".gallery")
-const galleryPortfolio = galleries[1]
-const galleryModal = galleries[0]
-let works // Contenue de ma requete api
+export const galleryPortfolio = document.getElementById("portfolio-gallery");
+export let works // Contenue de ma requete api
 
 /**  Récupère la liste des travaux via une requête API.
  * @async
@@ -28,9 +27,11 @@ async function getWorks() {
  *  @gallery Une div html dans le DOM
  *  @param {object} works recuperé depuis l'api.
  */
-function displayWorks(works, gallery) {
+export function displayWorks(works, gallery) {
     works.forEach(element => {
         const figure = document.createElement("figure");
+        figure.classList.add("work")
+        figure.setAttribute("work-id",`${element.id}`)
         figure.innerHTML = `
         <img src="${element.imageUrl}" alt="${element.title}">
         <i class="fa-solid fa-trash-can"></i>
@@ -45,7 +46,7 @@ function displayWorks(works, gallery) {
  * @gallery Une div html dans le DOM
  * @param {object} worksList recuperé depuis l'api.
  */
-function eventFilter(worksList) {
+function eventFilter(worksList, gallery) {
     const boutonList = document.querySelectorAll(".filter-button");
     boutonList.forEach(button => {
         button.addEventListener("click", (event) =>{
@@ -154,16 +155,14 @@ function logout() {
 
 
 
-/*********************** dispaly Modal ***********************/
 
-function dispalyModal(works, gallery,){
-    const buttun = document.getElementById("modalButton")
-    buttun.addEventListener("click", () => {
-        const modal = document.getElementById("modal-overlay")
-        modal.style.display = "flex"
-        displayWorks(works, gallery)
-    })
-}
+
+
+
+
+
+
+
 
 /*********************** dispaly Homepage ***********************/
 
@@ -184,7 +183,7 @@ async function displayEditionOn() {
     await getWorks()
     displayWorks(works, galleryPortfolio)
     logout()
-    dispalyModal(works, galleryModal)
+    modalOn()
 
     
 }

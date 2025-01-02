@@ -57,7 +57,7 @@ function eventButton(){
         const email = document.getElementById("login-email").value
         const password = document.getElementById("login-password").value
         event.preventDefault()
-        if(veryfyEmail(email)){
+        if(verifyEmail(email)){
             await postId({email, password})
         }
     })

@@ -231,9 +231,6 @@ nav a {
 
 #portfolio-gallery .fa-solid.fa-trash-can{
 	display: none;
-
-
-	
 }
 
 
@@ -248,30 +245,29 @@ nav a {
 	margin: auto;
 }
 
-#contact > *, #login > * {
+#contact > *, #login > *{
 	text-align: center;
-
 }
 
 #contact h2, #login h2{
 	margin-bottom: 20px;
 }
 
-#contact form, #login form {
+#contact form, #login form, #modal form  {
 	text-align: left;
 	margin-top:30px;
 	display: flex;
 	flex-direction: column;
 }
 
-#contact input, #login input {
+#contact input, #login input, #modal input, #modal select{
 	height: 50px;
 	font-size: 1.2em;
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
 
-#contact label, #login label {
+#contact label, #login label, #modal .modal-label {
 	margin: 2em 0 1em 0;
 }
 
@@ -288,7 +284,6 @@ nav a {
 	border-bottom: 1px solid black;
 }
 
-
 /**** footer ****/
 footer nav ul {
 	display: flex;
@@ -296,8 +291,14 @@ footer nav ul {
 	margin: 2em
 }
 
+
+
+
+
+
 /**** Modal ****/
 
+/*general*/
 #modal-overlay{
 	position: fixed;
 	top: 0;
@@ -317,31 +318,46 @@ footer nav ul {
 	width: 630px;
 	max-height: 90%;
 	border-radius: 10px;
-
+	padding-top: 26px;
+	padding-bottom: 2.80rem;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	padding-top: 3.75rem;
-	padding-bottom: 2.80rem;
-	
 }
 
-#modal h3{
+/*header*/
+#header-modal{
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	text-align: center;
+}
+
+#nav-modal{
+	margin: 0 26px;
+	height: 24px;
+	display: flex;
+	flex-direction: row-reverse;
+	justify-content: space-between;
+}
+
+#title-modal{
 	font-family: Work Sans;
 	font-size: 26px;
 	font-weight: 400;
 	line-height: 30.5px;
-	text-align: center;
 }
 
-.fa-solid.fa-xmark {
-	position: absolute;
-	right: 26px;
-	top: 30px;
-	width: 24px;
-	height: 24px;
 
+/*main*/
+#main-modal{
+	border-bottom: 1px solid rgba(179, 179, 179, 1);
+	width: 420px;
+	padding-bottom: 47px;
+	margin-bottom: 32px;
 }
 
 #modal-gallery {
@@ -350,9 +366,7 @@ footer nav ul {
 	grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
 	grid-column-gap: 20px;
 	grid-row-gap: 20px;
-	padding-top: 4rem;
-	padding-bottom: 4rem;
-	border-bottom: 1px solid rgba(179, 179, 179, 1);
+	margin-top:30px;
 }
 
 #modal-gallery img {
@@ -364,7 +378,7 @@ footer nav ul {
 	position: relative;
 }
 
-#modal .fa-solid.fa-trash-can{
+#modal .fa-solid.fa-trash-can {
 	position: absolute;
 	top: 6px;
 	right: 5px;
@@ -383,15 +397,41 @@ footer nav ul {
 	display: none;
 }
 
-#modal button{
+.image-fieldset-modal{
+	background-color: rgba(232, 241, 246, 1);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 7px;
+	padding: 13px;
+	color: rgba(68, 68, 68, 1);
+}
+
+.fa-regular.fa-image {
+	font-size: 68.14px;
+	color: rgba(185, 197, 204, 1);
+}
+
+#upload-button{
+	background-color: rgba(203, 214, 220, 1);
+	border-radius: 50px;
+	color: rgba(48, 102, 133, 1);
+	padding: 10px 33px;
+}
+
+.preview-photo {
+	height: 193px;
+}
+
+/*footer*/
+#modal-btn {
 	font-family: 'Syne';
 	font-weight: 700;
 	color: white;
 	background-color: #1D6154;
-	margin : 2em auto ;
 	width: 237px;
 	height: 36px;
 	text-align: center;
 	border-radius: 60px ;
-	border: none
+	border: none;
 }
