@@ -50,6 +50,32 @@ async function postNewWork(newWork, user) {
  * 
  */
 
+/** Active le bouton de la modal quand le formulaire est remplie.
+ * 
+ *  @function
+ *  @param {HTMLElement} inputTitle Balise <input> dans le formulaire 
+ *  @param {HTMLElement} selectCategory Balise <select> dans le formulaire
+ *  @button balise <button> de la modal.
+ */
+function activeButton(inputTitle, selectCategory) {
+    if (inputTitle.value && selectCategory.value) {
+        // Si le formulaire est remplie, le bouton se reactive
+        button.disabled = false
+        button.style.backgroundColor = " #1D6154"
+
+    } else {
+        // Autrement je reactive le bouton quand tout les element du formulaire sont remplie
+        const form = [inputTitle, selectCategory]
+        form.forEach ((element) => {
+            element.addEventListener("change", () => {
+                inputTitle.value && selectCategory.value ? 
+                (button.disabled = false, button.style.backgroundColor = " #1D6154" ) : 
+                (button.disabled = true, button.style.backgroundColor = " #A7A7A7")       
+            })           
+        })
+    }
+}
+
 /** Affiche une preview de la photo dans le formulaire
  * @function
  * @param {File} photo Fichier de la photo à prévisualiser.
@@ -87,14 +113,15 @@ function addNewWork() {
         const photo = photoInput.files[0] //input.file revoie un tableau de un ellement car un seul fichier est sectioner, [0] pour ne recuperer que l'element seul
         previewPhoto(photo)
 
+
         // Active le bouton du formulaire
+        activeButton(inputTitle, selectCategory)
 
         
         button.addEventListener("click", () => {
             // Récupère les autre données du formulaire
             const title = inputTitle.value
             const category = selectCategory.value
-            
            // Cree un objet avec les données du formulaire
             const newWork = new FormData()
             newWork.append("title", title)
@@ -167,6 +194,7 @@ function displayFormulaire() {
     button.setAttribute("type", "submit")
     button.setAttribute("for", "new-post")
     button.style.backgroundColor = " #A7A7A7"
+    button.disabled = true
 
     // Supprime un travail
     addNewWork()
