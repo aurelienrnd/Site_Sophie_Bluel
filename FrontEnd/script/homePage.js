@@ -89,7 +89,7 @@ function getcategories(filterArea) {
     const SetName = new Set;
     const SetId = new Set;
     works.forEach(element => {
-        SetId.add(element.category.id);
+        SetId.add(element.categoryId);
         SetName.add(element.category.name);
     });
 
