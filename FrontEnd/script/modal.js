@@ -2,6 +2,7 @@ import {displayWorks, works, galleryPortfolio} from "./homePage.js"
 const modalOverlay = document.getElementById("modal-overlay")
 const modal = document.getElementById("modal")
 const nav = document.getElementById("nav-modal")
+const navArea = document.getElementById("nav-return")
 const title = document.getElementById("title-modal")
 const main = document.getElementById("main-modal")
 const button = document.getElementById("modal-btn")
@@ -321,6 +322,22 @@ export function modalOn(){
 function returnBtn (){
     const arrowLeft = document.createElement("i")
     arrowLeft.classList.add("fa-solid", "fa-arrow-left")
-    const navArea = document.getElementById("nav-return")
+    
     navArea.appendChild(arrowLeft)
+    arrowLeft.addEventListener("click", () => {
+        resetModal()
+    })
+}
+
+function resetModal() {
+    main.innerHTML = ""
+    const arrowLeft = document.querySelector(".fa-arrow-left")
+    if (arrowLeft){
+        navArea.innerHTML = ""
+        button.disabled = false 
+        button.style.backgroundColor = " #1D6154"
+        button.removeAttribute("for")
+        button.removeAttribute("type")
+    }
+    displayModal()
 }
