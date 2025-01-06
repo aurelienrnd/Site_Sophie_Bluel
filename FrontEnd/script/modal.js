@@ -6,8 +6,10 @@ const navArea = document.getElementById("nav-return")
 const title = document.getElementById("title-modal")
 const main = document.getElementById("main-modal")
 const button = document.getElementById("modal-btn")
+let inputTitle
+let selectCategory
 let galleryModal
-
+let photo
 
 
 
@@ -77,11 +79,24 @@ function activeButton(inputTitle, selectCategory) {
     }
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 /** Affiche une preview de la photo dans le formulaire
  * @function
  * @param {File} photo Fichier de la photo à prévisualiser.
  */
-function previewPhoto(photo) {
+function previewPhoto() {
     // Crée une balise <img>
     const previewPhoto = document.createElement("img")
     previewPhoto.alt = "photo a ajouter"
@@ -106,36 +121,92 @@ function previewPhoto(photo) {
  */
 function addNewWork() {
     const photoInput = document.getElementById("photoInput")
-    const inputTitle = document.getElementById("titleInput")
-    const selectCategory = document.getElementById("categorySelect")
+    inputTitle = document.getElementById("titleInput")
+    selectCategory = document.getElementById("categorySelect")
 
     // Récupère le fichier photo lorsqu'il est chargé dans le formulaire et affiche sa preview. 
     photoInput.addEventListener("change", () => {
-        const photo = photoInput.files[0] //input.file revoie un tableau de un ellement car un seul fichier est sectioner, [0] pour ne recuperer que l'element seul
-        previewPhoto(photo)
+        photo = photoInput.files[0] //input.file revoie un tableau de un ellement car un seul fichier est sectioner, [0] pour ne recuperer que l'element seul
+        previewPhoto()
 
 
         // Active le bouton du formulaire
         activeButton(inputTitle, selectCategory)
 
-        
-        button.addEventListener("click", () => {
-            // Récupère les autre données du formulaire
-            const title = inputTitle.value
-            const category = selectCategory.value
-           // Cree un objet avec les données du formulaire
-            const newWork = new FormData()
-            newWork.append("title", title)
-            newWork.append("category", category)
-            newWork.append("image", photo)
-            
-            // Envoie les données via une requette post
-            const user = localStorage.getItem("user")
-            postNewWork(newWork, user)
-            
-        })
+        button.addEventListener("click", objectNewWork)
     })
 }
+
+
+/** Ajoute un travaille au site
+ * 
+ *  @function
+ *  @inputTitle balise <input> dans le formulaire de la modal.
+ *  @selectCategory balise <select> dans le formulaire de la modal
+ */
+function objectNewWork() {
+    // Récupère les autre données du formulaire
+    const title = inputTitle.value
+    const category = selectCategory.value
+    // Cree un objet avec les données du formulaire
+    const newWork = new FormData()
+    newWork.append("title", title)
+    newWork.append("category", category)
+    newWork.append("image", photo)
+    
+    // Envoie les données via une requette post
+    const user = localStorage.getItem("user")
+    postNewWork(newWork, user)
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /** Retourne un formulaire pour deposser une nouvelle photo
  * 
@@ -338,6 +409,7 @@ function resetModal() {
         button.style.backgroundColor = " #1D6154"
         button.removeAttribute("for")
         button.removeAttribute("type")
+        button.removeEventListener("click", objectNewWork)
     }
     displayModal()
 }
