@@ -196,6 +196,9 @@ function displayFormulaire() {
     button.style.backgroundColor = " #A7A7A7"
     button.disabled = true
 
+    // Affiche le bouton precedent
+    returnBtn()
+
     // Supprime un travail
     addNewWork()
 }
@@ -313,4 +316,11 @@ export function modalOn(){
         modalOverlay.style.display = "flex"
         displayModal()
     })
+}
+
+function returnBtn (){
+    const arrowLeft = document.createElement("i")
+    arrowLeft.classList.add("fa-solid", "fa-arrow-left")
+    const navArea = document.getElementById("nav-return")
+    navArea.appendChild(arrowLeft)
 }
