@@ -97,14 +97,6 @@ async function postNewWork(newWork, user) {
     }
 }
 
-/** Change les proprieter du bouton de la modal 
- * @function
- * @param {HTMLElement} inputTitle balise <input dans le formulaire>.
- * @param {HTMLElement} inputCategory Le fichier de la photo à prévisualiser.
- * @button balise <button> de la modal.
- * 
- */
-
 /** Active le bouton de la modal quand le formulaire est remplie.
  * 
  *  @function
@@ -262,6 +254,8 @@ function displayFormulaire() {
 
     // Supprime un travail
     addNewWork()
+
+    console.log(works)
 }
 
 
@@ -275,7 +269,7 @@ function displayFormulaire() {
  *  @param {HTMLElement} Modalpost Balise <figure> contenant un travail dans la modal
  *  @galleryPortfolio balise <div> ou sont contenue les traveaux dans la section portfolio
  */
-function remouveDispalyWork(id, modalPost) {
+function remouveDispalyWork(id, modalPost) {    
     // Retire un travail dans la gallerie de la modal 
     galleryModal.removeChild(modalPost)
 
@@ -287,6 +281,15 @@ function remouveDispalyWork(id, modalPost) {
             galleryPortfolio.removeChild(element)
         }
     })
+
+    // Retire un travail du tableaux works
+    works.forEach(element => {
+        if (element.id == Number(id)) {
+            works.splice(element, 1)
+        }
+    })
+
+    console.log(works)
 }
 
 /** Envoie une requette HTTP DELATE pour suprimer un travail.
@@ -360,6 +363,7 @@ function displayModal() {
 
     // Supprime un travail
     removeWork()
+    console.log(works)
 }
 
 
