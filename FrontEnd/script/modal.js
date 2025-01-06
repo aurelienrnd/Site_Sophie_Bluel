@@ -9,7 +9,8 @@ let inputTitle
 let selectCategory
 let galleryModal
 let photo
-
+let workTitle
+let workCategory
 
 
 /***** Navigation de la Modal *****/
@@ -67,9 +68,30 @@ function turnOffModal(turnOff) {
 
 /***** Ajouter un travail  *****/
 
-function displayNewwork() {
-    
-    
+/** Envoie une requette HTTP post pour ajouter un travail.
+ *  @function
+ *  @param {object} url url de l'image  
+ */
+function displayNewWork(url) {
+    // Recupaire l'id du dernier objet poster dans le tableaux pui creer un objet avec toutes la donner du travail
+    let lastWorkId 
+    if(works.length === 0){
+        lastWorkId = 0
+    } else {
+        lastWorkId = works[works.length-1].id
+    }
+    const newWorkId = lastWorkId + 1
+    const newWork = {id: newWorkId, title: workTitle, categoryId: Number(workCategory), imageUrl: url}
+
+    // ajout le nouveau travail au tableau works
+    works.push(newWork)
+
+    //actualise la modal
+    resetModal()
+    displayModal()
+
+    //affiche le nouveau travail dans le portfolio
+    displayWorks([newWork], galleryPortfolio)
 }
 
 /** Envoie une requette HTTP post pour ajouter un travail.
@@ -127,17 +149,20 @@ function activeButton(inputTitle, selectCategory) {
     }
 }
 
+/** Active le bouton de la modal quand le formulaire est remplie.
+ * 
+ *  @function
+ *  @param {function} callback prend lurl en paramaitre
+ *  @button la photo chatger par l'utilisateur.
+ */
 function urlPhoto(callback){
     const reader = new FileReader() // creer un objet capable de lire le fichier
     reader.readAsDataURL(photo) // je demande a reader de lire le fichier photo comme une url
     reader.addEventListener("load", () => { //au chargement d'un fichier dans reader
-        const url = reader.result // le resulta de reader egalera src de ma balise img
+        const url = reader.result // le resulta de reader egalera l'url de la photo
         callback(url)
     })
 }
-
-
-
 
 /** Affiche une preview de la photo dans le formulaire
  * @function
@@ -154,11 +179,9 @@ function previewPhoto(url) {
     const containerPhoto = document.querySelector(".image-fieldset-modal")
     containerPhoto.innerHTML = ""
     containerPhoto.appendChild(previewPhoto)
-    
 }
 
 /** Ajoute un travaille au site
- * 
  *  @function
  *  @button balise <button> de la modal.
  */
@@ -170,9 +193,9 @@ function addNewWork() {
     // Récupère le fichier photo lorsqu'il est chargé dans le formulaire et affiche sa preview. 
     photoInput.addEventListener("change", () => {
         photo = photoInput.files[0] //input.file revoie un tableau de un ellement car un seul fichier est sectioner, [0] pour ne recuperer que l'element seul
+        
+        
         urlPhoto(previewPhoto)
-
-
         // Active le bouton du formulaire
         activeButton(inputTitle, selectCategory)
 
@@ -188,18 +211,18 @@ function addNewWork() {
  */
 async function objectNewWork() {
     // Récupère les autre données du formulaire
-    const title = inputTitle.value
-    const category = selectCategory.value
+    workTitle = inputTitle.value
+    workCategory = selectCategory.value
     // Cree un objet avec les données du formulaire
     const newWork = new FormData()
-    newWork.append("title", title)
-    newWork.append("category", category)
+    newWork.append("title", workTitle)
+    newWork.append("category", workCategory)
     newWork.append("image", photo)
     
     // Envoie les données via une requette post
     const user = localStorage.getItem("user")
     if(await postNewWork(newWork, user)){
-        displayNewwork()
+        urlPhoto(displayNewWork)
     }
 }
 
