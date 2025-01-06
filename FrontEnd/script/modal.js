@@ -1,7 +1,6 @@
 import {displayWorks, works, galleryPortfolio} from "./homePage.js"
 const modalOverlay = document.getElementById("modal-overlay")
 const modal = document.getElementById("modal")
-const nav = document.getElementById("nav-modal")
 const navArea = document.getElementById("nav-return")
 const title = document.getElementById("title-modal")
 const main = document.getElementById("main-modal")
@@ -67,13 +66,18 @@ function turnOffModal(turnOff) {
 
 
 /***** Ajouter un travail  *****/
+
+function displayNewwork() {
+    
+    
+}
+
 /** Envoie une requette HTTP post pour ajouter un travail.
  *  @function
  *  @param {object} newWork objet a envoyer a l'api 
  *  @param {object} user contien l'id utilisateur et son token
  */
 async function postNewWork(newWork, user) {
-    console.log(JSON.parse(user).token)
     try{
         const reponse = await fetch("http://localhost:5678/api/works", {
             method: "POST",
@@ -86,7 +90,7 @@ async function postNewWork(newWork, user) {
         if(!reponse.ok){
             throw new Error("Erreur:" + reponse.status)
         }
-        location.reload();
+        return await reponse.json();
 
     } catch (error){
         console.log(error)
@@ -123,26 +127,34 @@ function activeButton(inputTitle, selectCategory) {
     }
 }
 
+function urlPhoto(callback){
+    const reader = new FileReader() // creer un objet capable de lire le fichier
+    reader.readAsDataURL(photo) // je demande a reader de lire le fichier photo comme une url
+    reader.addEventListener("load", () => { //au chargement d'un fichier dans reader
+        const url = reader.result // le resulta de reader egalera src de ma balise img
+        callback(url)
+    })
+}
+
+
+
+
 /** Affiche une preview de la photo dans le formulaire
  * @function
  * @param {File} photo Fichier de la photo à prévisualiser.
  */
-function previewPhoto() {
+function previewPhoto(url) {
     // Crée une balise <img>
     const previewPhoto = document.createElement("img")
     previewPhoto.alt = "photo a ajouter"
     previewPhoto.classList.add("preview-photo")
+    previewPhoto.src = url
 
-    const reader = new FileReader() // creer un objet capable de lire le fichier
-    reader.readAsDataURL(photo) // je demande a reader de lire le fichier photo comme une url
-    reader.addEventListener("load", () => { //au chargement d'un fichier dans reader
-        previewPhoto.src = reader.result // le resulta de reader egalera src de ma balise img
-
-        // Affichage de la balise dans le DOM
-        const containerPhoto = document.querySelector(".image-fieldset-modal")
-        containerPhoto.innerHTML = ""
-        containerPhoto.appendChild(previewPhoto)
-    })
+    // Affichage de la balise dans le DOM
+    const containerPhoto = document.querySelector(".image-fieldset-modal")
+    containerPhoto.innerHTML = ""
+    containerPhoto.appendChild(previewPhoto)
+    
 }
 
 /** Ajoute un travaille au site
@@ -158,7 +170,7 @@ function addNewWork() {
     // Récupère le fichier photo lorsqu'il est chargé dans le formulaire et affiche sa preview. 
     photoInput.addEventListener("change", () => {
         photo = photoInput.files[0] //input.file revoie un tableau de un ellement car un seul fichier est sectioner, [0] pour ne recuperer que l'element seul
-        previewPhoto()
+        urlPhoto(previewPhoto)
 
 
         // Active le bouton du formulaire
@@ -174,7 +186,7 @@ function addNewWork() {
  *  @inputTitle balise <input> dans le formulaire de la modal.
  *  @selectCategory balise <select> dans le formulaire de la modal
  */
-function objectNewWork() {
+async function objectNewWork() {
     // Récupère les autre données du formulaire
     const title = inputTitle.value
     const category = selectCategory.value
@@ -186,7 +198,9 @@ function objectNewWork() {
     
     // Envoie les données via une requette post
     const user = localStorage.getItem("user")
-    postNewWork(newWork, user)
+    if(await postNewWork(newWork, user)){
+        displayNewwork()
+    }
 }
 
 /** Retourne un formulaire pour deposser une nouvelle photo
