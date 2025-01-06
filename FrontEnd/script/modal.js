@@ -13,8 +13,60 @@ let photo
 
 
 
-/***** Ajouter un travail  *****/
+/***** Navigation de la Modal *****/
 
+/** Cree un bouton retour sur la modal
+ *  @function
+ *  @navArea Une Balise <li> dans le nav de la modal
+ */
+function returnBtn (){
+    const arrowLeft = document.createElement("i")
+    arrowLeft.classList.add("fa-solid", "fa-arrow-left")
+    
+    navArea.appendChild(arrowLeft)
+    arrowLeft.addEventListener("click", () => {
+        resetModal()
+        displayModal()
+    })
+}
+
+/** Efface le contenue de la modal 
+ *  @function
+ *  @main une balise <div> de la modal 
+ *  @navArea Une Balise <li> dans le nav de la modal
+ *  @button une balise <buttun> de la modal
+ */
+function resetModal() {
+    main.innerHTML = ""
+    const arrowLeft = document.querySelector(".fa-arrow-left")
+    if (arrowLeft){
+        navArea.innerHTML = ""
+        button.disabled = false 
+        button.style.backgroundColor = " #1D6154"
+        button.removeAttribute("for")
+        button.removeAttribute("type")
+        button.removeEventListener("click", objectNewWork)
+    }
+
+}
+
+/** Au clique sur un element masque la modal  
+ *  @function
+ *  @modalOverlay une balise <aside> dans le DOM
+ *  @modal Une balise <section> dans le <aside>
+ */
+function turnOffModal(turnOff) {
+    turnOff.addEventListener("click", (event) => {
+        resetModal()
+        modalOverlay.style.display = "none"
+    })
+    modal.addEventListener("click", (event) => {
+        event.stopPropagation()
+    })
+}
+
+
+/***** Ajouter un travail  *****/
 /** Envoie une requette HTTP post pour ajouter un travail.
  *  @function
  *  @param {object} newWork objet a envoyer a l'api 
@@ -79,19 +131,6 @@ function activeButton(inputTitle, selectCategory) {
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 /** Affiche une preview de la photo dans le formulaire
  * @function
  * @param {File} photo Fichier de la photo à prévisualiser.
@@ -137,7 +176,6 @@ function addNewWork() {
     })
 }
 
-
 /** Ajoute un travaille au site
  * 
  *  @function
@@ -158,55 +196,6 @@ function objectNewWork() {
     const user = localStorage.getItem("user")
     postNewWork(newWork, user)
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /** Retourne un formulaire pour deposser une nouvelle photo
  * 
@@ -387,29 +376,8 @@ export function modalOn(){
     openModal.addEventListener("click", () => {
         modalOverlay.style.display = "flex"
         displayModal()
+        const xmark = document.querySelector(".fa-xmark")
+        turnOffModal(xmark)
+        turnOffModal(modalOverlay)
     })
-}
-
-function returnBtn (){
-    const arrowLeft = document.createElement("i")
-    arrowLeft.classList.add("fa-solid", "fa-arrow-left")
-    
-    navArea.appendChild(arrowLeft)
-    arrowLeft.addEventListener("click", () => {
-        resetModal()
-    })
-}
-
-function resetModal() {
-    main.innerHTML = ""
-    const arrowLeft = document.querySelector(".fa-arrow-left")
-    if (arrowLeft){
-        navArea.innerHTML = ""
-        button.disabled = false 
-        button.style.backgroundColor = " #1D6154"
-        button.removeAttribute("for")
-        button.removeAttribute("type")
-        button.removeEventListener("click", objectNewWork)
-    }
-    displayModal()
 }
