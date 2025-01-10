@@ -1,7 +1,6 @@
 import {modalOn} from "./modal.js"
-const portfolio = document.getElementById("portfolio");
 export const galleryPortfolio = document.getElementById("portfolio-gallery");
-export let works // Contenue de ma requete api
+export let works // tableaux contenat les différent traveaux obtenue apres requette api
 
 /**  Récupère la liste des travaux via une requête API.
  * @async
@@ -27,15 +26,21 @@ async function getWorks() {
  *  @gallery Une div html dans le DOM
  *  @param {object} works recuperé depuis l'api.
  */
-export function displayWorks(works, gallery) {
-    works.forEach(element => {
+export function displayWorks(arrayWork, gallery) {
+    arrayWork.forEach(element => {
+
+        // creer une balise <figure>
         const figure = document.createElement("figure");
         figure.classList.add("work")
         figure.setAttribute("work-id",`${element.id}`)
+
+        // l'implemente de différent ellements
         figure.innerHTML = `
         <img src="${element.imageUrl}" alt="${element.title}">
         <i class="fa-solid fa-trash-can"></i>
         <figcaption>${element.title}</figcaption>`;
+
+        //l'affiche dans le DOM
         gallery.appendChild(figure);
     });
 };
@@ -46,18 +51,22 @@ export function displayWorks(works, gallery) {
  * @gallery Une div html dans le DOM
  * @param {object} worksList recuperé depuis l'api.
  */
-function eventFilter(worksList, gallery) {
+function eventFilter(arrayWork, gallery) {
+    //Pour chaque bouton au click
     const boutonList = document.querySelectorAll(".filter-button");
     boutonList.forEach(button => {
         button.addEventListener("click", (event) =>{
             const buttonTarget = Number(event.target.id);
-            if (buttonTarget){ //ci egale plus que 0 filtrer 
-                const filterDisplay = worksList.filter(work => work.categoryId === buttonTarget);
+
+            if (buttonTarget){ //ci superieur a 0 le bouton = true
+                // filtre des traveaux don l'id category est le meme que le bouton
+                const filterDisplay = arrayWork.filter(work => work.categoryId === buttonTarget);
                 gallery.replaceChildren();
                 displayWorks(filterDisplay, gallery);
-            } else { //ci egale a 0 pas filtrer
+
+            } else { //ci egale a 0 le bouton = false on ne filtre pas
                 gallery.replaceChildren();
-                displayWorks(worksList, gallery);
+                displayWorks(arrayWork, gallery);
             };
         });
     });
@@ -85,17 +94,18 @@ function createButton(name, id, filterArea) {
  * @getWork function requette api
  * @param {HTMLElement} filterArea Section htm ou se trouvent les boutons
  */
-function getcategories(filterArea) {
+function getCategories(filterArea) {
+    // creation de tableaux regroupent les id category et les nom de category
     const SetName = new Set;
     const SetId = new Set;
     works.forEach(element => {
         SetId.add(element.categoryId);
         SetName.add(element.category.name);
     });
-
     const id = Array.from(SetId);
     const name = Array.from(SetName);
 
+    // creation de bouton avecle bon nom et id
     for(let i=0; i<id.length; i++){
         createButton(name[i], id[i], filterArea);
     };
@@ -111,15 +121,15 @@ function displayButton(gallery) {
     // creation de la div 
     const filterArea = document.createElement("div");
     filterArea.classList = "filter-area"
-
+    const portfolio = document.getElementById("portfolio");
     portfolio.appendChild(filterArea);
     portfolio.insertBefore(filterArea, gallery);
 
-    // creer un bouton "Tous"
+    // cree un bouton "Tous"
     createButton("Tous", 0, filterArea);
 
     // creer un bouton associer au bon texte
-    getcategories(filterArea);
+    getCategories(filterArea);
 };
 
 /** Masque et ajuste le margin de certain element en mode offEdition
@@ -127,13 +137,10 @@ function displayButton(gallery) {
  * @function
  */
 function hiddenEditionElement() {
-    const hiddenElement = document.querySelectorAll(".editionElements")
-    hiddenElement.forEach(element => {
-        element.style.display = "none"
-    })
+
+    // Ajoute une class au body pour sorganiser avec les nouveaux ellements
     const body = document.querySelector("body")
     body.classList.remove("editionActive")
-    console.log(body)
 }
 
 /** Au click, suprime la donnée user du local storage 
@@ -142,9 +149,11 @@ function hiddenEditionElement() {
  * @param {HTMLElement} bouton balise li pour ce déconnecté
  */
 function logout() {
+    // masque le nouton login
     const loginButton = document.getElementById("nav-login")
     loginButton.style.display = "none"
 
+    // deconnect au click sur logout
     const logoutButton = document.getElementById("nav-logout")
     logoutButton.addEventListener("click", () => {
         localStorage.removeItem("user")
@@ -153,33 +162,47 @@ function logout() {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
 /*********************** dispaly Homepage ***********************/
 
 /* Home page edition mode off
  *  Affiche le site pour une personne non connecté */
-async function dispalayEditionOff() {
-    hiddenEditionElement()
-    await getWorks()
+async function displayEditionOff(introduction, body) {
+    // Masque les elements qui ne doivent pas aparaitre en offEdition
+    const hiddenElement = document.querySelectorAll(".editionElements")
+    hiddenElement.forEach(element => {
+        element.style.display = "none"
+    })
+
+    // Changement de class css en mode editionOff
+    body.classList.remove("editionActive")
+    introduction.classList.remove("editionActive")
+    galleryPortfolio.classList.remove("editionActive")
+
+    body.classList.add("editionOff")
+    introduction.classList.add("editionOff")
+    galleryPortfolio.classList.add("editionOff")
+    
+    
+
+    await getWorks() // return works
     displayButton(galleryPortfolio)
     displayWorks(works, galleryPortfolio)
     eventFilter(works, galleryPortfolio)
-    
+
 }
 
 /* Home page edition mode on
 *  Affiche le site pour une personne connecté */
-async function displayEditionOn() {
+async function displayEditionOn(introduction, body) {
+    // Changement de class css en mode editionOn
+    body.classList.remove("editionOff")
+    introduction.classList.remove("editionOff")
+    galleryPortfolio.classList.remove("editionOff")
+
+    body.classList.add("editionActive")
+    introduction.classList.add("editionActive")
+    galleryPortfolio.classList.add("editionActive")
+    
     await getWorks()
     displayWorks(works, galleryPortfolio)
     logout()
@@ -192,13 +215,15 @@ async function displayEditionOn() {
 /*********************** Execution du script ***********************/
 
 /*Verifie si l'utilisateur est connecté*/
+const introduction = document.getElementById("introduction")
+const body = document.querySelector("body")
 const reponse = localStorage.getItem("user")
 const user = JSON.parse(reponse)
 console.log(user)
 if (!reponse){
-    dispalayEditionOff()
+    displayEditionOff(introduction, body)
 } else{
-    displayEditionOn()
+    displayEditionOn(introduction, body)
 }
 
 

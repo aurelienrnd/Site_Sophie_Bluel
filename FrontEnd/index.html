@@ -9,11 +9,12 @@
 	<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap" rel="stylesheet">
 	<meta name="description" content="">
 	<link rel="stylesheet" href="./assets/style.css">
+	<link rel="stylesheet" href="./assets/modal.css">
 	<script src="https://kit.fontawesome.com/99bbbefc9f.js" crossorigin="anonymous"></script>
 	<script src="https://kit.fontawesome.com/99bbbefc9f.js" crossorigin="anonymous"></script>
 	<script async src="script/homePage.js" type="module"></script>
 </head>
-<body  class="editionActive">
+<body class="editionOff">
 	<div id="edit-bar" class="editionElements"> 
 		<i class="fa-regular fa-pen-to-square"></i><span>Mode édition</span>
 	</div>
@@ -50,28 +51,28 @@
 				<span id="modalButton" class="editionElements" href="#" style="cursor: pointer"> <!-- Mode edition off : style display:none -->
 					<i class="fa-regular fa-pen-to-square"></i>modifier
 				</span>
-				
-				<aside id="modal-overlay">
-					<section id="modal">
-						<div id="header-modal">
-							<nav>
-								<ul id="nav-modal">
-									<li><i class="fa-solid fa-xmark"></i></li>
-									<li id="nav-return"><!-- balise <i> implémenter avec modal.js --></li>
-								</ul>
-							</nav>
-							<h3 id="title-modal"><!-- implémenter avec modal.js --></h3>
-						</div>
-
-						<div id="main-modal"><!-- contenue implémenter avec modal.js --></div>
-
-						<div id="footer-modal">
-							<button id="modal-btn"><!-- implémenter avec modal.js --></button>
-						</div>
-					</section>					
-				</aside>
 			</div>
 		</div>
+
+		<aside id="modal-overlay">
+			<section id="modal">
+				<div id="header-modal">
+					<nav>
+						<ul id="nav-modal">
+							<li><i class="fa-solid fa-xmark"></i></li>
+							<li id="nav-return"><!-- balise <i> implémenter avec modal.js --></li>
+						</ul>
+					</nav>
+					<h3 id="title-modal"><!-- implémenter avec modal.js --></h3>
+				</div>
+
+				<div id="main-modal"><!-- contenue implémenter avec modal.js --></div>
+
+				<div id="footer-modal">
+					<button id="modal-btn"><!-- implémenter avec modal.js --></button>
+				</div>
+			</section>					
+		</aside>
 
 		<!-- Mode edition off : ajout d'une div contenant des btns filtre avec a home_page.js -->
 

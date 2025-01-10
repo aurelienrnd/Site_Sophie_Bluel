@@ -1,11 +1,12 @@
 import {displayWorks, works, galleryPortfolio} from "./homePage.js"
-const modalOverlay = document.getElementById("modal-overlay")
-const modal = document.getElementById("modal")
+
+// Balise HTML presente dans la modal
 const navArea = document.getElementById("nav-return")
 const title = document.getElementById("title-modal")
 const main = document.getElementById("main-modal")
 const button = document.getElementById("modal-btn")
-let inputTitle
+// Balise du formulaire de la modal
+let inputTitle 
 let selectCategory
 let galleryModal
 let photo
@@ -16,8 +17,9 @@ let workCategory
 /***** Navigation de la Modal *****/
 
 /** Cree un bouton retour sur la modal
- *  @function
- *  @navArea Une Balise <li> dans le nav de la modal
+ *  @function resetModal() efface le contenue de la modal
+ *  @function displayModal() affiche la page gallery de la modal
+ *  @const navArea Une Balise <li> dans le nav de la modal
  */
 function returnBtn (){
     const arrowLeft = document.createElement("i")
@@ -31,15 +33,19 @@ function returnBtn (){
 }
 
 /** Efface le contenue de la modal 
- *  @function
- *  @main une balise <div> de la modal 
- *  @navArea Une Balise <li> dans le nav de la modal
- *  @button une balise <buttun> de la modal
+ *  @function objectNewWork cree un objet contenant les donées du formulaire
+ *  @const main une balise <div> de la modal 
+ *  @const navArea Une Balise <li> dans le nav de la modal
+ *  @const button une balise <buttun> de la modal
  */
 function resetModal() {
+    // supprime le contenus principal de la modal
     main.innerHTML = ""
+
+    // ci le bouton retour existe
     const arrowLeft = document.querySelector(".fa-arrow-left")
     if (arrowLeft){
+        // supprime le bouton de nav retour et reinitialise le bouton submit
         navArea.innerHTML = ""
         button.disabled = false 
         button.style.backgroundColor = " #1D6154"
@@ -50,16 +56,17 @@ function resetModal() {
 
 }
 
-/** Au clique sur un element masque la modal  
- *  @function
+/** Au clique sur un element masque la modal
+ *  @param {elementHtml} turnOff une balise htm contenue dans la modal 
+ *  @function resetModal efface le contenue de la modal
  *  @modalOverlay une balise <aside> dans le DOM
- *  @modal Une balise <section> dans le <aside>
  */
-function turnOffModal(turnOff) {
+function turnOffModal(turnOff, modalOverlay) {
     turnOff.addEventListener("click", (event) => {
         resetModal()
         modalOverlay.style.display = "none"
     })
+    const modal = document.getElementById("modal")
     modal.addEventListener("click", (event) => {
         event.stopPropagation()
     })
@@ -69,8 +76,10 @@ function turnOffModal(turnOff) {
 /***** Ajouter un travail  *****/
 
 /** Envoie une requette HTTP post pour ajouter un travail.
- *  @function
- *  @param {object} url url de l'image  
+ *  @function resetModal() suprime le contenus de la modal
+ *  @function displayModal() affiche la page gallery de la modal
+ *  @function displayWorks() affiche les traveaux dans la gallery
+ *  @param {string} url url de l'image  
  */
 function displayNewWork(url) {
     // Recupaire l'id du dernier objet poster dans le tableaux pui creer un objet avec toutes la donner du travail
@@ -98,6 +107,8 @@ function displayNewWork(url) {
  *  @function
  *  @param {object} newWork objet a envoyer a l'api 
  *  @param {object} user contien l'id utilisateur et son token
+ *  @returns {Promise} si la requette a echouer ou non.
+ *  @throws {Error} Si la requête échoue ou si une erreur HTTP se produit.
  */
 async function postNewWork(newWork, user) {
     try{
@@ -152,7 +163,7 @@ function activeButton(inputTitle, selectCategory) {
 /** Active le bouton de la modal quand le formulaire est remplie.
  * 
  *  @function
- *  @param {function} callback prend lurl en paramaitre
+ *  @param {function} callback prend l'url en paramaitre
  *  @button la photo chatger par l'utilisateur.
  */
 function urlPhoto(callback){
@@ -166,7 +177,7 @@ function urlPhoto(callback){
 
 /** Affiche une preview de la photo dans le formulaire
  * @function
- * @param {File} photo Fichier de la photo à prévisualiser.
+ * @param {string} url url de la photo a afficher.
  */
 function previewPhoto(url) {
     // Crée une balise <img>
@@ -239,24 +250,29 @@ function creatFormulaire() {
     
     // Implémente le contenue de la la balise <form>
     form.innerHTML = `
-        <fieldset class="image-fieldset-modal">
+        <div class="image-fieldset-modal">
             <i class="fa-regular fa-image"></i>
             <input type="file" id="photoInput" name="photo" accept="image/jpeg, image/png" required hidden/>
             <label for="photoInput" id="upload-button">+ Ajouter photo</label>
             <p>jpg, png : 4mo max</p>
-        </fieldset>
+        </div>
 
-        <label for="titleInput" class="modal-label">Titre</label>
-        <input type="text" id="titleInput" name="title" required/>
+        <fieldset class="text-fieldset-modal">
+            <div>
+                <label for="titleInput" class="modal-label">Titre</label>
+                <input type="text" id="titleInput" name="title" required/>
+            </div>
                 
-        <label for="categorySelect" class="modal-label">Catégorie</label>
-        <select id="categorySelect" name="category" required/>
-            <option value="" disabled selected>
-            <option value="1">Objets</option>
-            <option value="2">Appartements</option>
-            <option value="3">Hotels & restaurants</option>
-        </select>` //utilisation de data list au lieux de select?
-
+            <div>
+                <label for="categorySelect" class="modal-label">Catégorie</label>
+                <select id="categorySelect" name="category" required/>
+                    <option value="" disabled selected>
+                    <option value="1">Objets</option>
+                    <option value="2">Appartements</option>
+                    <option value="3">Hotels & restaurants</option>
+                </select>
+            </div>
+        </fieldset>` //utilisation de data list au lieux de select?
     return form
 }
 
@@ -291,8 +307,6 @@ function displayFormulaire() {
 
     // Supprime un travail
     addNewWork()
-
-    console.log(works)
 }
 
 
@@ -400,7 +414,6 @@ function displayModal() {
 
     // Supprime un travail
     removeWork()
-    console.log(works)
 }
 
 
@@ -414,11 +427,13 @@ function displayModal() {
  */
 export function modalOn(){
     const openModal = document.getElementById("modalButton")
+    const modalOverlay = document.getElementById("modal-overlay")
+    const xmark = document.querySelector(".fa-xmark")
+
     openModal.addEventListener("click", () => {
         modalOverlay.style.display = "flex"
         displayModal()
-        const xmark = document.querySelector(".fa-xmark")
-        turnOffModal(xmark)
-        turnOffModal(modalOverlay)
+        turnOffModal(xmark, modalOverlay)
+        turnOffModal(modalOverlay, modalOverlay)
     })
 }
