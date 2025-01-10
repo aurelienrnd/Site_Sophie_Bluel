@@ -51,10 +51,11 @@ a{
 	text-decoration: none;
 	color: black;
 }
-
 /** end reset css**/
 
-/**** General ****/
+
+
+/********** General **********/
 section {
 	margin: 50px 0
 }
@@ -98,7 +99,9 @@ input[type="submit"]{
 	border-radius: 60px ;
 }
 
-/*Edition Elements*/
+
+
+/********** Edition Elements **********/
 #edit-bar{
 	display: flex;
 	height:59px ;
@@ -121,7 +124,7 @@ input[type="submit"]{
 
 
 
-/**** Body ****/
+/********** Body **********/
 body {
 	max-width: 1140px;
 	margin:auto;
@@ -139,7 +142,9 @@ body.editionOff {
 	padding-top: 50px;
 }
 
-/**** header ****/
+
+
+/********** header **********/
 header {
 	display: flex;
 	justify-content: space-between;
@@ -162,12 +167,12 @@ nav a {
 	font-size: 1.2em;
 }
 
-/**** main ****/
+/********** main **********/
 main { 
 	margin: 0 95px
 }
 
-/**** introduction ****/
+/********** introduction **********/
 #introduction {
 	display: flex;
 	gap: 72px;
@@ -204,11 +209,9 @@ main {
 	margin-bottom: 0.5rem;
 }
 
-/**** portfolio ****/
-#portfolio{
-	
 
-}
+
+/********* portfolio **********/
 .title-portfolio {
 	display: flex;
 	justify-content: end;
@@ -269,7 +272,13 @@ main {
 }
 
 
-/**** contact && login ****/
+
+/********** contact & login & modal **********/
+#contact > *, #login > *{
+	text-align: center;
+}
+
+/*** contact ***/
 #contact {
 	width: 50%;
 	margin: auto;
@@ -279,6 +288,7 @@ main {
 	margin-bottom: 9px;
 }
 
+/*** login ***/
 #login {
 	width: 379px;
 	margin: auto;
@@ -286,10 +296,15 @@ main {
 	margin-bottom: 355px;
 }
 
-#contact > *, #login > *{
+#login a {
 	text-align: center;
 }
 
+#login a:hover{
+	border-bottom: 1px solid black;
+}
+
+/*** formulaire ***/
 #contact form, #login form, #modal form  {
 	text-align: left;
 	display: flex;
@@ -312,16 +327,9 @@ main {
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
 
-#login a {
-	text-align: center;
-}
 
-#login a:hover{
-	border-bottom: 1px solid black;
-}
 
-/**** footer ****/
-
+/********** footer **********/
 footer nav ul {
 	display: flex;
 	justify-content: flex-end;

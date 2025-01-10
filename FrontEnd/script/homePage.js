@@ -1,5 +1,14 @@
 import {modalOn} from "./modal.js"
+
+/** galleryPortfolio
+ * displayWork(), eventFilter(), displayButoon()
+ * Exportation pour une utilisation dans displayWork()
+ */
 export const galleryPortfolio = document.getElementById("portfolio-gallery");
+/**  works
+ * displayWork(), eventFilter(), displayButoon()
+ * Exportation pour une utilisation dans modal.js()
+ */
 export let works // Tableaux contenant les différent travaux obtenue apres requête api avec getWorks()
 
 /**  Récupérer la liste des travaux via une requête API.
