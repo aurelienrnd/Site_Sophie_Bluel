@@ -10,29 +10,32 @@
 	<meta name="description" content="">
 	<link rel="stylesheet" href="./assets/style.css">
 	<link rel="stylesheet" href="./assets/modal.css">
+	<!-- Je dois ajouter le kit.fontawesom par npm ?-->
 	<script src="https://kit.fontawesome.com/99bbbefc9f.js" crossorigin="anonymous"></script>
 	<script src="https://kit.fontawesome.com/99bbbefc9f.js" crossorigin="anonymous"></script>
 	<script async src="script/homePage.js" type="module"></script>
 </head>
-<body class="editionOff">
-	<div id="edit-bar" class="editionElements"> 
-		<i class="fa-regular fa-pen-to-square"></i><span>Mode édition</span>
-	</div>
+<body class="editionOff"> 
+<div id="edit-bar" class="editionElements"> <!-- Mode edition off : style display:none -->
+	<i class="fa-regular fa-pen-to-square"></i><span>Mode édition</span>
+</div>
 	
 <header>
 	<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
 	<nav>
-		<ul id="nav-list">
+		<ul>
 			<li><a href="#portfolio">projets</a></li>
 			<li><a href="#contact">contact</a></li>
-			<li><a id="nav-login" href="./login.html">login</a> <a id="nav-logout" class="editionElements" href="#">logout</a></li>
+			<li><a id="nav-login" href="./login.html">login</a>
+				<!--Je dois cacher le bouton en css ou en creer un en js ?-->
+				<a id="nav-logout" class="editionElements" href="#">logout</a></li>
 			<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
 		</ul>
 	</nav>
 </header>
 
 <main>
-	<section id="introduction"> <!-- Mode edition off : style display:none -->
+	<section id="introduction"> 
 		<figure>
 			<img src="./assets/images/sophie-bluel.png" alt="">
 		</figure>
@@ -47,11 +50,10 @@
 	<section id="portfolio">
 		<div class="title-portfolio">
 			<h2>Mes Projets</h2>
-			<div>
-				<span id="modalButton" class="editionElements" href="#" style="cursor: pointer"> <!-- Mode edition off : style display:none -->
-					<i class="fa-regular fa-pen-to-square"></i>modifier
-				</span>
-			</div>
+			
+			<span id="modalButton" style="cursor: pointer"> <!-- Mode edition off : style display:none -->
+				<i class="fa-regular fa-pen-to-square editionElements"></i>modifier
+			</span>
 		</div>
 
 		<aside id="modal-overlay">

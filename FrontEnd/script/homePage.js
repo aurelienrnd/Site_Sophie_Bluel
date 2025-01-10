@@ -1,12 +1,12 @@
 import {modalOn} from "./modal.js"
 export const galleryPortfolio = document.getElementById("portfolio-gallery");
-export let works // tableaux contenat les différent traveaux obtenue apres requette api
+export let works // Tableaux contenant les différent travaux obtenue apres requête api avec getWorks()
 
-/**  Récupère la liste des travaux via une requête API.
+/**  Récupérer la liste des travaux via une requête API.
  * @async
- * @function
  * @returns {Promise<Object[]>} Un tableau d'objets représentant les travaux.
  * @throws {Error} Si la requête échoue ou si une erreur HTTP se produit.
+ * @works Variable global contenant les différent travaux obtenue apres requête api
  */
 async function getWorks() {
     try{
@@ -20,36 +20,35 @@ async function getWorks() {
     };
 };
 
-/**  Modifie le DOM pour y afficher des posts
- * 
- *  @function
- *  @gallery Une div html dans le DOM
- *  @param {object} works recuperé depuis l'api.
+/**  Modifier le DOM pour y afficher des posts
+ *  @export
+ *  @param {object} arrayWork Un tableau contenant les travaux à afficher.
+ *  @param {HtmlElement} gallery Une div html ou afficher les travaux
  */
 export function displayWorks(arrayWork, gallery) {
     arrayWork.forEach(element => {
 
-        // creer une balise <figure>
+        // Creer une balise <figure>
         const figure = document.createElement("figure");
         figure.classList.add("work")
         figure.setAttribute("work-id",`${element.id}`)
 
-        // l'implemente de différent ellements
+        // Implementation de différent éléments
         figure.innerHTML = `
         <img src="${element.imageUrl}" alt="${element.title}">
         <i class="fa-solid fa-trash-can"></i>
         <figcaption>${element.title}</figcaption>`;
 
-        //l'affiche dans le DOM
+        // Affichage dans le DOM
         gallery.appendChild(figure);
     });
 };
 
 /** Filtre les travaux a afficher selon le bouton cliquer.
- * 
- * @function
  * @gallery Une div html dans le DOM
- * @param {object} worksList recuperé depuis l'api.
+ * @param {object} arrayWork Un tableau contenant les travaux à afficher..
+ * @param {HtmlElement} gallery Une div html ou afficher les travaux
+ * @function displayWorks Modifier le DOM pour y afficher des posts
  */
 function eventFilter(arrayWork, gallery) {
     //Pour chaque bouton au click
@@ -58,13 +57,13 @@ function eventFilter(arrayWork, gallery) {
         button.addEventListener("click", (event) =>{
             const buttonTarget = Number(event.target.id);
 
-            if (buttonTarget){ //ci superieur a 0 le bouton = true
-                // filtre des traveaux don l'id category est le meme que le bouton
+            if (buttonTarget){ // Ci superieur a 0 le bouton = true
+                // Filtre les travaux dont l'id category est le meme que le bouton
                 const filterDisplay = arrayWork.filter(work => work.categoryId === buttonTarget);
                 gallery.replaceChildren();
                 displayWorks(filterDisplay, gallery);
 
-            } else { //ci egale a 0 le bouton = false on ne filtre pas
+            } else { // Ci egale a 0 le bouton = false on ne filtre pas
                 gallery.replaceChildren();
                 displayWorks(arrayWork, gallery);
             };
@@ -73,10 +72,8 @@ function eventFilter(arrayWork, gallery) {
 };
 
 /** Créer et associe le bon texte et le bon Id a chaque bouton.
- * 
- * @function
- * @param {HTMLElement} filterArea Section htm ou se trouve les boutons
- * @param {string} name Le texte à afficher dans le bouton.
+ * @param {HTMLElement} filterArea Section html ou se trouve les boutons
+ * @param {string} name Le texte à afficher dans le bouton
  * @param {number} id L'identifiant unique du bouton
  */
 function createButton(name, id, filterArea) {
@@ -88,14 +85,12 @@ function createButton(name, id, filterArea) {
 };
 
 /**  Récupère la liste des categories depuis la requete API de get works.
- * 
- * @async
- * @function
- * @getWork function requette api
- * @param {HTMLElement} filterArea Section htm ou se trouvent les boutons
+ * @param {HTMLElement} filterArea Section html ou se trouve les boutons
+ * @function createButton Créer et associe le bon texte et le bon Id a chaque bouton.
+ * @works Variable global contenant les différent travaux obtenue apres requête api
  */
 function getCategories(filterArea) {
-    // creation de tableaux regroupent les id category et les nom de category
+    // Creation de deux tableaux regroupant les id et les nom de chaque category
     const SetName = new Set;
     const SetId = new Set;
     works.forEach(element => {
@@ -105,57 +100,43 @@ function getCategories(filterArea) {
     const id = Array.from(SetId);
     const name = Array.from(SetName);
 
-    // creation de bouton avecle bon nom et id
+    // Creation de bouton avec le bon nom et id
     for(let i=0; i<id.length; i++){
         createButton(name[i], id[i], filterArea);
     };
 };
 
-/** Ajoute au DOM une liste de boutons.
- * 
- * @function
- * @gallery Une DIV dans le DOM
- * @portfolio Une section dans le DOM
+/** Ajoute au DOM des bouton filter.
+ *  @param {HtmlElement} gallery Une div html ou afficher les travaux
+ *  @function createButton Créer et associe le bon texte et le bon Id a chaque bouton.
+ *  @function getCategories Récupère la liste des categories depuis la requete API de get works.
  */
 function displayButton(gallery) {
-    // creation de la div 
+    // Creation de la div qui accueilleront les bouton
     const filterArea = document.createElement("div");
     filterArea.classList = "filter-area"
     const portfolio = document.getElementById("portfolio");
     portfolio.appendChild(filterArea);
     portfolio.insertBefore(filterArea, gallery);
 
-    // cree un bouton "Tous"
+    // Créer un bouton "Tous"
     createButton("Tous", 0, filterArea);
 
-    // creer un bouton associer au bon texte
+    // Creer les autres bouton associer au bon texte
     getCategories(filterArea);
 };
 
-/** Masque et ajuste le margin de certain element en mode offEdition
- * 
- * @function
- */
-function hiddenEditionElement() {
-
-    // Ajoute une class au body pour sorganiser avec les nouveaux ellements
-    const body = document.querySelector("body")
-    body.classList.remove("editionActive")
-}
-
-/** Au click, suprime la donnée user du local storage 
- * 
- * @function
- * @param {HTMLElement} bouton balise li pour ce déconnecté
+/** Déconnecter l'utilisateur
  */
 function logout() {
-    // masque le nouton login
+    // Masquer le bouton login
     const loginButton = document.getElementById("nav-login")
     loginButton.style.display = "none"
 
-    // deconnect au click sur logout
+    // Deconnecte au clic sur logout
     const logoutButton = document.getElementById("nav-logout")
     logoutButton.addEventListener("click", () => {
+        // Supprimer user du local storage et recharger la page
         localStorage.removeItem("user")
         window.location.reload()
     })
@@ -164,16 +145,23 @@ function logout() {
 
 /*********************** dispaly Homepage ***********************/
 
-/* Home page edition mode off
- *  Affiche le site pour une personne non connecté */
+/** Home page edition mode off
+ *  Affiche le site pour une personne non connecté
+ *  @param {HtmlElement} introduction Balise <section> dans le dom
+ *  @param {HtmlElement} body Balise <body> dans le dom
+ *  @function getWorks Récupérer la liste des travaux via une requête API.
+ *  @function displayButton Ajoute au DOM des bouton filter.
+ *  @function displayWorks Modifier le DOM pour y afficher des posts
+ *  @function eventFilter Filtre les travaux a afficher selon le bouton cliquer.
+ */
 async function displayEditionOff(introduction, body) {
-    // Masque les elements qui ne doivent pas aparaitre en offEdition
+    // Masque les elements qui ne doivent pas apparaître en edition off
     const hiddenElement = document.querySelectorAll(".editionElements")
     hiddenElement.forEach(element => {
         element.style.display = "none"
     })
 
-    // Changement de class css en mode editionOff
+    // Changement de class css en mode éditionOff
     body.classList.remove("editionActive")
     introduction.classList.remove("editionActive")
     galleryPortfolio.classList.remove("editionActive")
@@ -182,8 +170,6 @@ async function displayEditionOff(introduction, body) {
     introduction.classList.add("editionOff")
     galleryPortfolio.classList.add("editionOff")
     
-    
-
     await getWorks() // return works
     displayButton(galleryPortfolio)
     displayWorks(works, galleryPortfolio)
@@ -191,10 +177,17 @@ async function displayEditionOff(introduction, body) {
 
 }
 
-/* Home page edition mode on
-*  Affiche le site pour une personne connecté */
+/** Home page edition mode on
+*  Affiche le site pour une personne connecté
+ *  @param {HtmlElement} introduction Balise <section> dans le dom
+ *  @param {HtmlElement} body Balise <body> dans le dom
+ *  @function getWorks Récupérer la liste des travaux via une requête API..
+ *  @function displayWorks Modifier le DOM pour y afficher des posts.
+ *  @function logout Déconnecter l'utilisateur.
+ *  @function modalOn Fait apparaître une modal pour ajouter ou supprimer des post.
+*/
 async function displayEditionOn(introduction, body) {
-    // Changement de class css en mode editionOn
+    // Changement de class css en mode éditiOn
     body.classList.remove("editionOff")
     introduction.classList.remove("editionOff")
     galleryPortfolio.classList.remove("editionOff")
@@ -214,7 +207,7 @@ async function displayEditionOn(introduction, body) {
 
 /*********************** Execution du script ***********************/
 
-/*Verifie si l'utilisateur est connecté*/
+//Vérifier si l'utilisateur est connecté
 const introduction = document.getElementById("introduction")
 const body = document.querySelector("body")
 const reponse = localStorage.getItem("user")

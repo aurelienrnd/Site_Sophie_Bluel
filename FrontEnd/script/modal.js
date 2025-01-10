@@ -1,25 +1,26 @@
 import {displayWorks, works, galleryPortfolio} from "./homePage.js"
 
 // Balise HTML presente dans la modal
-const navArea = document.getElementById("nav-return")
-const title = document.getElementById("title-modal")
-const main = document.getElementById("main-modal")
-const button = document.getElementById("modal-btn")
+const navArea = document.getElementById("nav-return") //returnBtn() resetModal
+const title = document.getElementById("title-modal")// displayFormulaire
+const main = document.getElementById("main-modal") //resetModal() displayFormulaire
+const button = document.getElementById("modal-btn") // resetModal() activeButton() addNewWork() displayFormulaire
 // Balise du formulaire de la modal
-let inputTitle 
-let selectCategory
+let inputTitle // addNewWork() objectNewWork()
+let selectCategory //addNewWork() objectNewWork()
 let galleryModal
-let photo
-let workTitle
-let workCategory
+let photo //addNewWork() urlPhoto()
+let workTitle // objectNewWork() displayNewWork()
+let workCategory // objectNewWork() displayNewWork()
 
 
-/***** Navigation de la Modal *****/
 
-/** Cree un bouton retour sur la modal
- *  @function resetModal() efface le contenue de la modal
- *  @function displayModal() affiche la page gallery de la modal
- *  @const navArea Une Balise <li> dans le nav de la modal
+/***** Navigation de la modal *****/
+
+/** Créer un bouton retour sur la modal
+ *  @navArea Une Balise <li> dans le nav de la modal
+ *  @function resetModal Efface le contenue de la modal
+ *  @function displayModal Affiche la la page gallery de la modal
  */
 function returnBtn (){
     const arrowLeft = document.createElement("i")
@@ -32,20 +33,20 @@ function returnBtn (){
     })
 }
 
-/** Efface le contenue de la modal 
- *  @function objectNewWork cree un objet contenant les donées du formulaire
- *  @const main une balise <div> de la modal 
- *  @const navArea Une Balise <li> dans le nav de la modal
- *  @const button une balise <buttun> de la modal
+/** Efface le contenue de la modal
+ *  @function objectNewWork Créer un objet contenant les données du formulaire
+ *  @main Une balise <div> de la modal 
+ *  @navArea Une Balise <li> dans le nav de la modal
+ *  @button Une balise <button> de la modal
  */
 function resetModal() {
-    // supprime le contenus principal de la modal
+    // Supprime le contenus principal de la modal
     main.innerHTML = ""
 
-    // ci le bouton retour existe
+    // Ci le bouton retour existe
     const arrowLeft = document.querySelector(".fa-arrow-left")
     if (arrowLeft){
-        // supprime le bouton de nav retour et reinitialise le bouton submit
+        // Supprimer le bouton de nav retour et réinitialiser le bouton submit
         navArea.innerHTML = ""
         button.disabled = false 
         button.style.backgroundColor = " #1D6154"
@@ -57,9 +58,9 @@ function resetModal() {
 }
 
 /** Au clique sur un element masque la modal
- *  @param {elementHtml} turnOff une balise htm contenue dans la modal 
- *  @function resetModal efface le contenue de la modal
- *  @modalOverlay une balise <aside> dans le DOM
+ *  @param {elementHtml} turnOff Une balise htm contenue dans la modal 
+ *  @param {elementHtml} modalOverlay Une balise <aside> dans le DOM
+ *  @function resetModal Efface le contenue de la modal
  */
 function turnOffModal(turnOff, modalOverlay) {
     turnOff.addEventListener("click", (event) => {
@@ -73,16 +74,20 @@ function turnOffModal(turnOff, modalOverlay) {
 }
 
 
+
 /***** Ajouter un travail  *****/
 
-/** Envoie une requette HTTP post pour ajouter un travail.
- *  @function resetModal() suprime le contenus de la modal
- *  @function displayModal() affiche la page gallery de la modal
- *  @function displayWorks() affiche les traveaux dans la gallery
- *  @param {string} url url de l'image  
+/** Envoie une requête HTTP post pour ajouter un travail.
+ *  @param {string} url Url de la photo choisie dans le formulaire 
+ *  @function resetModal() Efface le contenue de la modal
+ *  @function displayModal() Affiche la la page gallery de la modal
+ *  @function displayWorks() Modifier le DOM pour y afficher des posts
+ *  @works Tableaux contenant les différent travaux obtenue apres requête api avec getWorks()
+ *  @worTitle Le titre du nouveau travail a ajouter 
+ *  @categoryId La catégory du nouveaux travail a ajouter 
  */
 function displayNewWork(url) {
-    // Recupaire l'id du dernier objet poster dans le tableaux pui creer un objet avec toutes la donner du travail
+    // Récupérer l'id du dernier objet posé dans le tableaux pui creer un nouvelle objet
     let lastWorkId 
     if(works.length === 0){
         lastWorkId = 0
@@ -92,22 +97,21 @@ function displayNewWork(url) {
     const newWorkId = lastWorkId + 1
     const newWork = {id: newWorkId, title: workTitle, categoryId: Number(workCategory), imageUrl: url}
 
-    // ajout le nouveau travail au tableau works
+    // Ajout le nouveau objet au tableau works
     works.push(newWork)
 
-    //actualise la modal
+    // Actualisation de la modal
     resetModal()
     displayModal()
 
-    //affiche le nouveau travail dans le portfolio
+    // Affiche le nouveau travail dans le portfolio
     displayWorks([newWork], galleryPortfolio)
 }
 
-/** Envoie une requette HTTP post pour ajouter un travail.
- *  @function
- *  @param {object} newWork objet a envoyer a l'api 
- *  @param {object} user contien l'id utilisateur et son token
- *  @returns {Promise} si la requette a echouer ou non.
+/** Envoie une requête HTTP post pour ajouter un travail.
+ *  @param {object} newWork Objet a envoyer a l'api
+ *  @param {object} user Objet contenant les info de l'utilisateur
+ *  @returns {Promise} La requête a échoué ou non.
  *  @throws {Error} Si la requête échoue ou si une erreur HTTP se produit.
  */
 async function postNewWork(newWork, user) {
@@ -134,12 +138,10 @@ async function postNewWork(newWork, user) {
     }
 }
 
-/** Active le bouton de la modal quand le formulaire est remplie.
- * 
- *  @function
+/** Active le bouton submit de la modal si le formulaire est remplie.
  *  @param {HTMLElement} inputTitle Balise <input> dans le formulaire 
  *  @param {HTMLElement} selectCategory Balise <select> dans le formulaire
- *  @button balise <button> de la modal.
+ *  @button balise <button type submit> de la modal.
  */
 function activeButton(inputTitle, selectCategory) {
     if (inputTitle.value && selectCategory.value) {
@@ -148,7 +150,7 @@ function activeButton(inputTitle, selectCategory) {
         button.style.backgroundColor = " #1D6154"
 
     } else {
-        // Autrement je reactive le bouton quand tout les element du formulaire sont remplie
+        // Autrement je reactive le bouton que quand tout les element du formulaire sont remplie
         const form = [inputTitle, selectCategory]
         form.forEach ((element) => {
             element.addEventListener("change", () => {
@@ -160,27 +162,24 @@ function activeButton(inputTitle, selectCategory) {
     }
 }
 
-/** Active le bouton de la modal quand le formulaire est remplie.
- * 
- *  @function
+/** Récupérer l'url de la photo choisie dans le formulaire.
  *  @param {function} callback prend l'url en paramaitre
- *  @button la photo chatger par l'utilisateur.
+ *  @photo Fichier choisie dans le formulaire
  */
 function urlPhoto(callback){
-    const reader = new FileReader() // creer un objet capable de lire le fichier
-    reader.readAsDataURL(photo) // je demande a reader de lire le fichier photo comme une url
-    reader.addEventListener("load", () => { //au chargement d'un fichier dans reader
-        const url = reader.result // le resulta de reader egalera l'url de la photo
+    const reader = new FileReader() // Creer un objet capable de lire le fichier
+    reader.readAsDataURL(photo) // Demande a reader de lire le fichier photo comme une url
+    reader.addEventListener("load", () => { // Au chargement d'un fichier dans reader
+        const url = reader.result // Le resulta de reader egalera l'url de la photo
         callback(url)
     })
 }
 
 /** Affiche une preview de la photo dans le formulaire
- * @function
- * @param {string} url url de la photo a afficher.
+ * @param {string} url Url de la photo choisie dans le formulaire.
  */
 function previewPhoto(url) {
-    // Crée une balise <img>
+    // Créer une balise <img>
     const previewPhoto = document.createElement("img")
     previewPhoto.alt = "photo a ajouter"
     previewPhoto.classList.add("preview-photo")
@@ -193,32 +192,40 @@ function previewPhoto(url) {
 }
 
 /** Ajoute un travaille au site
- *  @function
- *  @button balise <button> de la modal.
+ *  @function urlPhoto Récupérer l'url de la photo choisie dans le formulaire et affiche sa preview via previewPhoto.
+ *  @function activeButton Active le bouton submit de la modal si le formulaire est remplie.
+ *  @function objectNewWork Créer un objet contenant les données du nouveaux travail
+ *  @button balise <button> de la modal
+ *  @inputTitle Balise <input> dans le DOM
+ *  @selectCategory Balise <select> dans le DOM
+ *  @photo Fichier choisie dans le formulaire
  */
 function addNewWork() {
     const photoInput = document.getElementById("photoInput")
     inputTitle = document.getElementById("titleInput")
     selectCategory = document.getElementById("categorySelect")
 
-    // Récupère le fichier photo lorsqu'il est chargé dans le formulaire et affiche sa preview. 
+    // Récupérer le fichier photo lorsqu'il est chargé dans le formulaire et affiche sa preview. 
     photoInput.addEventListener("change", () => {
         photo = photoInput.files[0] //input.file revoie un tableau de un ellement car un seul fichier est sectioner, [0] pour ne recuperer que l'element seul
-        
         
         urlPhoto(previewPhoto)
         // Active le bouton du formulaire
         activeButton(inputTitle, selectCategory)
 
+        // Créer un objet contenant les données du nouveaux travail
         button.addEventListener("click", objectNewWork)
     })
 }
 
-/** Ajoute un travaille au site
- * 
- *  @function
- *  @inputTitle balise <input> dans le formulaire de la modal.
- *  @selectCategory balise <select> dans le formulaire de la modal
+/** Créer un objet contenant les données du nouveaux travail
+ *  @async
+ *  @inputTitle Balise <input> dans le formulaire de la modal.
+ *  @selectCategory Balise <select> dans le formulaire de la modal
+ *  @function postNewWork Envoie une requête HTTP post pour ajouter un travail.
+ *  @function urlPhoto Récupérer l'url de la photo choisie dans le formulaire et envoie une requête HTTP post via displayNewWork
+ *  @workTitle Le titre du nouveau travail a ajouter 
+ *  @workCategory La catégory du nouveaux travail a ajouter
  */
 async function objectNewWork() {
     // Récupère les autre données du formulaire
@@ -237,9 +244,7 @@ async function objectNewWork() {
     }
 }
 
-/** Retourne un formulaire pour deposser une nouvelle photo
- * 
- *  @function
+/** Retourner un formulaire pour déposer une nouvelle photo
  *  @returns {HTMLElement} Un formulaire pour deposer une photo avec son titre et sa catégorie.
  */
 function creatFormulaire() {
@@ -248,7 +253,7 @@ function creatFormulaire() {
     form.id = "new-post"
     form.enctype = "multipart/form-data"
     
-    // Implémente le contenue de la la balise <form>
+    // Implémenter le contenue de la la balise <form>
     form.innerHTML = `
         <div class="image-fieldset-modal">
             <i class="fa-regular fa-image"></i>
@@ -277,12 +282,13 @@ function creatFormulaire() {
 }
 
 /** Affiche le formulaire "Ajout photo"
- * 
- *  @function
- *  @param {HTMLElement} galleryModal une <div> child de main, contenant plusieur photos.
- *  @param {HTMLElement} addPhotoBtn un <button> child de footer.
- *  @button balise <button> de la modal
- *  @main une <div> child de modal
+ *  @function displayFormulaire Affiche le formulaire "Ajout photo"
+ *  @function creatFormulaire Retourner un formulaire pour déposer une nouvelle photo
+ *  @function returnBtn Créer un bouton retour sur la modal
+ *  @function addNewWork Ajoute un travaille au site
+ *  @button une balise <button> de la modal
+ *  @title Une balise <h3> presente dans une div child de la modal.
+ *  @main Une balise <div> de la modal 
  */
 function displayFormulaire() {
     // Supprime le precedent ecouteur d'evenement sur le bouton
@@ -291,7 +297,7 @@ function displayFormulaire() {
     // Renomme le titre de la modale
     title.innerText = "Ajout photo"
 
-    //Implémente le formulaire dans <main> de la modale.
+    // Ajoute le formulaire dans <main> de la modale.
     const form = creatFormulaire()
     main.replaceChild(form, galleryModal)
 
@@ -302,10 +308,10 @@ function displayFormulaire() {
     button.style.backgroundColor = " #A7A7A7"
     button.disabled = true
 
-    // Affiche le bouton precedent
+    // Créer un bouton retour sur la modal
     returnBtn()
 
-    // Supprime un travail
+    // Ajoute un travaille au site
     addNewWork()
 }
 
@@ -313,18 +319,17 @@ function displayFormulaire() {
 
 /***** Supprimer un travail *****/
 
-/** Supprime la le travail des galleries.
- * 
- *  @function
- *  @param {number} id identifiant unique du travail a supprimer 
+/** Supprime un travail des galeries et du tableaux works.
+ *  @param {number} id Identifiant unique du travail a supprimer
  *  @param {HTMLElement} Modalpost Balise <figure> contenant un travail dans la modal
- *  @galleryPortfolio balise <div> ou sont contenue les traveaux dans la section portfolio
+ *  @galleryPortfolio balise <div> ou sont contenue les travaux dans la section portfolio
+ *  @works Tableaux contenant les différent travaux obtenue apres requête api avec getWorks()
  */
 function remouveDispalyWork(id, modalPost) {    
-    // Retire un travail dans la gallerie de la modal 
+    // Retire un travail dans la galerie de la modal
     galleryModal.removeChild(modalPost)
 
-    // Retire un travail dans la gallerie du le portfolio
+    // Retire un travail dans la galerie du le portfolio
     const portfolioPosts = Array.from(galleryPortfolio.children)
     portfolioPosts.forEach(element => {
         const elementId = element.getAttribute("work-id")
@@ -333,7 +338,7 @@ function remouveDispalyWork(id, modalPost) {
         }
     })
 
-    // Retire un travail du tableaux works
+    // Retirer un travail de tableaux works
     works.forEach(element => {
         if (element.id == Number(id)) {
             works.splice(element, 1)
@@ -343,12 +348,12 @@ function remouveDispalyWork(id, modalPost) {
     console.log(works)
 }
 
-/** Envoie une requette HTTP DELATE pour suprimer un travail.
- * 
- *  @function
- *  @param {number} id identifiant unique du travail a supprimer 
- *  @param {object} user contien l'id utilisateur et son token
- *  @param {HTMLElement} post Balise <figure> contenant le travail a supprimer
+/** Envoie une requête HTTP DELETE pour supprimer un travail.
+ *  @async
+ *  @param {number} id Identifiant unique du travail a supprimer
+ *  @param {object} user Objet contenant les info de l'utilisateur
+ *  @param {HTMLElement} post Balise <figure> contenant un travail dans la modal
+ *  @throws {Error} Si la requête échoue ou si une erreur HTTP se produit.
  */
 async function delateWorks(id, user, post) {
     try{
@@ -359,6 +364,7 @@ async function delateWorks(id, user, post) {
                 "Authorization": `Bearer ${JSON.parse(user).token}`
             }
         })
+
         if (!reponse.ok){
             throw new Error(`Erreur HTTP : ${reponse.status}`);
         } else {
@@ -369,21 +375,20 @@ async function delateWorks(id, user, post) {
     };
 };
 
-/** Retire un travaille posté sur le site au click sur l'icone
- * 
- *  @function
+/** Retirer un travaille posté sur le site
+ *  @function delateWorks Envoie une requête HTTP DELETE pour supprimer un travail.
  */
 function removeWork() {
-    // Cree une liste de tout les logos trashCan
+    // Créer une liste de tout les logos trash-can
     const trashCan = document.querySelectorAll(".fa-trash-can")
     
-    // Recuperation de l'id du travail a supprimer 
+    // Recuperation de l'id du travail a supprimer
     trashCan.forEach(element => {
         element.addEventListener("click", (event) => {
             const post = event.target.parentElement
             const id = post.getAttribute("work-id")
 
-            // Envoie d'une requette http delate
+            // Envoie d'une requête http delete pour supprimer un travail.
             const user = localStorage.getItem("user")
             delateWorks(id, user, post)
         })
@@ -391,18 +396,19 @@ function removeWork() {
 }
 
 /** Affiche la page "Galerie photo"
- * 
- *  @function
- *  @title une balise <h3> presente dans une div child de main.
- *  @works contenus de ma resquette api.
- *  @main une <div> child de modal.
- *  @button balise <button> de la modal
+ *  @function displayWorks Modifier le DOM pour y afficher des posts
+ *  @function displayFormulaire Affiche le formulaire "Ajout photo"
+ *  @function removeWork Retirer un travaille posté sur le site
+ *  @title Une balise <h3> presente dans une div child de la modal.
+ *  @works Tableaux contenant les différent travaux obtenue apres requête api avec getWorks()
+ *  @main Une balise <div> de la modal 
+ *  @button Une balise <button> de la modal
  */
 function displayModal() {
     // Renomme le titre de la modale
     title.innerText = "Galerie photo"
 
-    // Implémente la galerie dans <main> de la modale. 
+    // Implémenter la galerie dans <main> de la modale.
     galleryModal = document.createElement("div")
     galleryModal.id = "modal-gallery"
     displayWorks(works, galleryModal)
@@ -412,7 +418,7 @@ function displayModal() {
     button.innerText = "Ajouter une photo"
     button.addEventListener("click", displayFormulaire)
 
-    // Supprime un travail
+    // Retirer un travaille posté sur le site
     removeWork()
 }
 
@@ -420,19 +426,21 @@ function displayModal() {
 
 /***** Apparision de la modal *****/
 
-/** Fait apparètre la modal au click sur le bouton "modifier"
- * 
- *  @function
- *  @modalOverlay Une Balise <aside>
+/** Fait apparaître la modal au clic sur le bouton "modifier"
+ *  @function displayModal Affiche la page "Galerie photo"
+ *  @function turnOffModal Au clique sur un element masque la modal
  */
 export function modalOn(){
     const openModal = document.getElementById("modalButton")
     const modalOverlay = document.getElementById("modal-overlay")
     const xmark = document.querySelector(".fa-xmark")
 
+    //Affiche la page "Galerie photo"
     openModal.addEventListener("click", () => {
         modalOverlay.style.display = "flex"
         displayModal()
+
+        //Au clique sur un element masque la modal
         turnOffModal(xmark, modalOverlay)
         turnOffModal(modalOverlay, modalOverlay)
     })

@@ -206,17 +206,21 @@ main {
 
 /**** portfolio ****/
 #portfolio{
-	position: relative
+	
+
+}
+.title-portfolio {
+	display: flex;
+	justify-content: end;
+	align-items: center;
 }
 
 #portfolio h2 {
-	text-align: center;
+	width: 33.33%;
 }
 
-.title-portfolio div{
-	position: absolute;
-	top: 10px;
-	right: 265px;
+#modalButton{
+	width: 33.33%;
 }
 
 .filter-area {

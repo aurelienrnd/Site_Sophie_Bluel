@@ -1,8 +1,6 @@
 /** Teste le format de l'email avec une regEx.
- * @function
- * @returns {bool} true or false ci l'email passe le test ou pas de la regEx
- * @param {string} email : email de l'utilisateur recupere depuis le formulaire 
- * @emailRegex : Crée une expression régulière qui permet de tester l'email
+ * @returns {bool} true or false si l'email passe le test ou pas de la regEx
+ * @param {string} email : mail de l'utilisateur recupere depuis le formulaire
  */
 function verifyEmail(email){
     const emailRegx = new RegExp(/^[a-zA-Z0-9\.]+@[a-zA-Z]+\.[a-zA-Z]+$/)
@@ -14,13 +12,10 @@ function verifyEmail(email){
     }
 }
 
-/** Envoie les identifiants de connexion via une requête API et reçoit un id et un token utilisateur.
+/** Envoyer les identifiants de connexion via une requête API et reçoit un id et un token utilisateur.
  * @async
- * @function
- * @returns {Promise<Object<{userId, token}>>} Un id et un token unique.
  * @throws {Error} Si la requête échoue ou si une erreur HTTP se produit.
- * @param {object} loginId : {email, pasword} de l'utilisateur
- * @user : Reçoit un objet {userId, token}
+ * @param {object} loginId {email, pasword} de l'utilisateur
  */
 async function postId(loginId) {
     try{
@@ -35,6 +30,8 @@ async function postId(loginId) {
             throw new Error("Erreur:" + reponse.status)
         }
         const user = await reponse.json()
+
+        // Enregistrement de la réponse api dans le localstorage
         localStorage.setItem("user", JSON.stringify(user));
         window.location.href = "index.html"
 
@@ -47,21 +44,19 @@ async function postId(loginId) {
     }
 }
 
-/** Au clic sur le bouton, récupérer l'email et le mots de passe saisie par l'utilisateur
- * @async
- * @function
- */
-function eventButton(){
-    const form = document.getElementById("login-form")
-    form.addEventListener("submit", async(event) => {
-        const email = document.getElementById("login-email").value
-        const password = document.getElementById("login-password").value
-        event.preventDefault()
-        if(verifyEmail(email)){
-            await postId({email, password})
-        }
-    })
-}
 
-// execution
-eventButton()
+/*********************** Execution du script ***********************/
+
+// Recuperation des identifiant de connection dans le formulaire
+const form = document.getElementById("login-form")
+form.addEventListener("submit", async(event) => {
+    const email = document.getElementById("login-email").value
+    const password = document.getElementById("login-password").value
+    event.preventDefault()
+
+    // si le mail est valide
+    if(verifyEmail(email)){
+        await postId({email, password})
+    }
+})
+
