@@ -1,4 +1,4 @@
-import {displayWorks, works, galleryPortfolio} from "./homePage.js"
+import {displayWorks, works, galleryPortfolio, getWorks} from "./homePage.js"
 
 /** navArea
  * returnBtn() resetModal()
@@ -101,35 +101,35 @@ function turnOffModal(turnOff, modalOverlay) {
 
 /***** Ajouter un travail  *****/
 
-/** Envoie une requête HTTP post pour ajouter un travail.
+/** Affiche les nouveaux travaux dans les differents portfolio.
  *  @param {string} url Url de la photo choisie dans le formulaire
  *  @param {string} workTitle Le titre du nouveau travail a ajouter 
  *  @param {number} categoryId La catégory du nouveaux travail a ajouter
+ *  @function getWorks() Récupérer la liste des travaux via une requête API.
  *  @function resetModal() Efface le contenue de la modal
- *  @function displayModal() Affiche la la page gallery de la modal
+ *  @function displayModal() Affiche la page gallery de la modal
  *  @function displayWorks() Modifier le DOM pour y afficher des posts
  *  @works Tableaux contenant les différent travaux obtenue apres requête api avec getWorks() 
  */
-function displayNewWork(url, workTitle, workCategory) {
-    // Récupérer l'id du dernier objet posé dans le tableaux pui creer un nouvelle objet
-    let lastWorkId 
+async function displayNewWork(url, workTitle, workCategory) {
     if(works.length === 0){
-        lastWorkId = 0
+        // Si aucun travail n'a été postée sur le site works = [] , requête api pour recuperer les traveaux
+        await getWorks()
+        resetModal()
+        displayModal()
+        displayWorks(works, galleryPortfolio)
+        
     } else {
-        lastWorkId = works[works.length-1].id
+        //autrement, récupérer l'id du dernier travail puis creer un objet a rajouter a works
+        const lastWorkId = works[works.length-1].id
+        const newWorkId = lastWorkId + 1
+        const newWork = {id: newWorkId, title: workTitle, categoryId: Number(workCategory), imageUrl: url}
+        works.push(newWork)
+        resetModal()
+        displayModal()
+        displayWorks([newWork], galleryPortfolio)
     }
-    const newWorkId = lastWorkId + 1
-    const newWork = {id: newWorkId, title: workTitle, categoryId: Number(workCategory), imageUrl: url}
-
-    // Ajout le nouveau objet au tableau works
-    works.push(newWork)
-
-    // Actualisation de la modal
-    resetModal()
-    displayModal()
-
-    // Affiche le nouveau travail dans le portfolio
-    displayWorks([newWork], galleryPortfolio)
+    
 }
 
 /** Envoie une requête HTTP post pour ajouter un travail.
@@ -456,6 +456,7 @@ function displayModal() {
     // Retirer un travaille posté sur le site, setTimeout 500ms pour eviter les beug ci l'utilisatuer apuit trop vite
     setTimeout(removeWork(galleryModal), 500)
     
+    console.log(works)
 }
 
 

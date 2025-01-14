@@ -11,13 +11,16 @@ export const galleryPortfolio = document.getElementById("portfolio-gallery");
  */
 export let works // Tableaux contenant les différent travaux obtenue apres requête api avec getWorks()
 
+
+
+
 /**  Récupérer la liste des travaux via une requête API.
  * @async
  * @returns {Promise<Object[]>} Un tableau d'objets représentant les travaux.
  * @throws {Error} Si la requête échoue ou si une erreur HTTP se produit.
  * @works Variable global contenant les différent travaux obtenue apres requête api
  */
-async function getWorks() {
+export async function getWorks() {
     try{
         const reponse = await fetch("http://localhost:5678/api/works");
         if (!reponse.ok){
@@ -183,6 +186,7 @@ async function displayEditionOff(introduction, body) {
     displayButton(galleryPortfolio)
     displayWorks(works, galleryPortfolio)
     eventFilter(works, galleryPortfolio)
+    console.log(works)
 
 }
 
@@ -209,8 +213,7 @@ async function displayEditionOn(introduction, body) {
     displayWorks(works, galleryPortfolio)
     logout()
     modalOn()
-
-    
+    console.log(works)
 }
 
 
