@@ -394,6 +394,7 @@ async function deleteWorks(id, user) {
             }
         })
 
+        // si la requette a reussie la fonction retourn ok autrement une nouvelle erreur 
         if (reponse.ok){
             return true
         } else {
@@ -452,8 +453,9 @@ function displayModal() {
     button.innerText = "Ajouter une photo"
     button.addEventListener("click", displayFormulaire)
 
-    // Retirer un travaille posté sur le site
-    removeWork(galleryModal)
+    // Retirer un travaille posté sur le site, setTimeout 500ms pour eviter les beug ci l'utilisatuer apuit trop vite
+    setTimeout(removeWork(galleryModal), 500)
+    
 }
 
 
