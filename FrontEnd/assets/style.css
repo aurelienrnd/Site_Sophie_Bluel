@@ -220,9 +220,10 @@ main {
 
 #portfolio h2 {
 	width: 33.33%;
+	text-align: center;
 }
 
-#modalButton{
+#container-ModalButton{
 	width: 33.33%;
 }
 
