@@ -229,9 +229,9 @@ function previewPhoto(url) {
  *  @photo Fichier choisie dans le formulaire
  */
 function addNewWork() {
-    const photoInput = document.getElementById("photoInput")
-    inputTitle = document.getElementById("titleInput")
-    selectCategory = document.getElementById("categorySelect")
+    const photoInput = document.getElementById("photo-input")
+    inputTitle = document.getElementById("title-input")
+    selectCategory = document.getElementById("category-select")
 
     // Récupérer le fichier photo lorsqu'il est chargé dans le formulaire et affiche sa preview. 
     photoInput.addEventListener("change", () => {
@@ -284,20 +284,20 @@ function creatFormulaire() {
     form.innerHTML = `
         <div class="image-fieldset-modal">
             <i class="fa-regular fa-image"></i>
-            <input type="file" id="photoInput" name="photo" accept="image/jpeg, image/png" required hidden/>
-            <label for="photoInput" id="upload-button">+ Ajouter photo</label>
+            <input type="file" id="photo-input" name="photo" accept="image/jpeg, image/png" required hidden/>
+            <label for="photo-input" id="upload-button">+ Ajouter photo</label>
             <p>jpg, png : 4mo max</p>
         </div>
 
         <fieldset class="text-fieldset-modal">
             <div>
-                <label for="titleInput" class="modal-label">Titre</label>
-                <input type="text" id="titleInput" name="title" required  placeholder="Titre du projet"/>
+                <label for="title-input" class="modal-label">Titre</label>
+                <input type="text" id="title-input" name="title" required  placeholder="Titre du projet"/>
             </div>
                 
             <div>
-                <label for="categorySelect" class="modal-label">Catégorie</label>
-                <select id="categorySelect" name="category" required/>
+                <label for="category-select" class="modal-label">Catégorie</label>
+                <select id="category-select" name="category" required/>
                     <option value="" disabled selected>Category du projet</option>
                     <option value="1">Objets</option>
                     <option value="2">Appartements</option>
@@ -452,7 +452,7 @@ function displayModal() {
 
     // Gestion du bouton
     button.innerText = "Ajouter une photo"
-    button.addEventListener("click", () => displayFormulaire(button, title,))
+    button.addEventListener("click", displayFormulaire)
 
     // Retirer un travaille posté sur le site, setTimeout 500ms pour eviter les beug ci l'utilisatuer apuit trop vite
     setTimeout(removeWork(galleryModal), 500)
@@ -469,7 +469,7 @@ function displayModal() {
  *  @function turnOffModal Au clique sur un element masque la modal
  */
 export function modalOn(){
-    const openModal = document.getElementById("modalButton")
+    const openModal = document.getElementById("modal-button")
     const modalOverlay = document.getElementById("modal-overlay")
     const xmark = document.querySelector(".fa-xmark")
 

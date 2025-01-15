@@ -14,6 +14,7 @@ export let works // Tableaux contenant les différent travaux obtenue apres requ
 
 
 
+
 /**  Récupérer la liste des travaux via une requête API.
  * @async
  * @returns {Promise<Object[]>} Un tableau d'objets représentant les travaux.
@@ -103,14 +104,14 @@ function createButton(name, id, filterArea) {
  */
 function getCategories(filterArea) {
     // Creation de deux tableaux regroupant les id et les nom de chaque category
-    const SetName = new Set;
-    const SetId = new Set;
+    const setName = new Set;
+    const setId = new Set;
     works.forEach(element => {
-        SetId.add(element.categoryId);
-        SetName.add(element.category.name);
+        setId.add(element.categoryId);
+        setName.add(element.category.name);
     });
-    const id = Array.from(SetId);
-    const name = Array.from(SetName);
+    const id = Array.from(setId);
+    const name = Array.from(setName);
 
     // Creation de bouton avec le bon nom et id
     for(let i=0; i<id.length; i++){
@@ -168,19 +169,19 @@ function logout() {
  */
 async function displayEditionOff(introduction, body) {
     // Masque les elements qui ne doivent pas apparaître en edition off
-    const hiddenElement = document.querySelectorAll(".editionElements")
+    const hiddenElement = document.querySelectorAll(".edition-elements")
     hiddenElement.forEach(element => {
         element.style.display = "none"
     })
 
     // Changement de class css en mode éditionOff
-    body.classList.remove("editionActive")
-    introduction.classList.remove("editionActive")
-    galleryPortfolio.classList.remove("editionActive")
+    body.classList.remove("edition-active")
+    introduction.classList.remove("edition-active")
+    galleryPortfolio.classList.remove("edition-active")
 
-    body.classList.add("editionOff")
-    introduction.classList.add("editionOff")
-    galleryPortfolio.classList.add("editionOff")
+    body.classList.add("edition-off")
+    introduction.classList.add("edition-off")
+    galleryPortfolio.classList.add("edition-off")
     
     await getWorks() // return works
     displayButton(galleryPortfolio)
@@ -201,13 +202,13 @@ async function displayEditionOff(introduction, body) {
 */
 async function displayEditionOn(introduction, body) {
     // Changement de class css en mode éditiOn
-    body.classList.remove("editionOff")
-    introduction.classList.remove("editionOff")
-    galleryPortfolio.classList.remove("editionOff")
+    body.classList.remove("edition-off")
+    introduction.classList.remove("edition-off")
+    galleryPortfolio.classList.remove("edition-off")
 
-    body.classList.add("editionActive")
-    introduction.classList.add("editionActive")
-    galleryPortfolio.classList.add("editionActive")
+    body.classList.add("edition-active")
+    introduction.classList.add("edition-active")
+    galleryPortfolio.classList.add("edition-active")
     
     await getWorks()
     displayWorks(works, galleryPortfolio)
