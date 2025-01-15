@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr-FR">
 	<head>
 		<meta charset="UTF-8">
 		<title>Sophie Bluel - Architecte d'intérieur</title>
@@ -31,11 +31,11 @@
 				<h2>Log In</h2>
 
 				<!--Je dois remplacer le action par l'adresse de l'api?-->
-				<form action="#" method="post" id="login-form">
+				<form action="http://localhost:5678/api/users/login" method="post" id="login-form">
 					<label for="email">Email</label>
-					<input type="email" name="login-email" id="login-email" autocomplete="email" required>
+					<input type="email" name="login-email" id="login-email" autocomplete="email" required placeholder="identifiant">
 					<label for="password">Mot de passe</label>
-					<input type="password" name="login-password" id="login-password" autocomplete="current-password" required>
+					<input type="password" name="login-password" id="login-password" autocomplete="current-password" required placeholder="password">
 					<input type="submit" value="Se connecter" id="login-submit">
 				</form>
 
@@ -46,7 +46,7 @@
 		<footer>
 			<nav>
 				<ul>
-					<li>Mentions Légales</li>
+					<li><a>Mentions Légales</a></li>
 				</ul>
 			</nav>
 		</footer>

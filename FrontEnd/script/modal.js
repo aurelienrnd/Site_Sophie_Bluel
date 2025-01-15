@@ -1,38 +1,38 @@
 import {displayWorks, works, galleryPortfolio, getWorks} from "./homePage.js"
 
 /** navArea
- * returnBtn() resetModal()
+ * Utilisé par les fonction: returnBtn() resetModal()
  * button.addEventListener("click", displayFormulaire) ---> returnBtn()
  */
 const navArea = document.getElementById("nav-return")
-/** navArea
- * displayFormulaire() displayModal()
+/** title
+ * Utilisé par les fonctions: displayFormulaire() displayModal()
  * button.addEventListener("click", displayFormulaire)
  */
 const title = document.getElementById("title-modal")
 /** main
- * resetModal() displayFormulaire
+ * Utilisé par les par les fonctions: resetModal() displayFormulaire
  * button.addEventListener("click", displayFormulaire)
  */
 const main = document.getElementById("main-modal")
 /** button
- * resetModal() activeButton() addNewWork() displayFormulaire() displayModal()
+ * Utilisé par les par les fonctions: resetModal() activeButton() addNewWork() displayFormulaire() displayModal()
  * button.addEventListener("click", displayFormulaire)
  * button.addEventListener("click", objectNewWork)
  */
 const button = document.getElementById("modal-btn")
 /** inputTitle
- * addNewWork() activeButton() objectNewWork() 
+ * Utilisé par les par les fonctions: addNewWork() activeButton() objectNewWork() 
  * button.addEventListener("click", objectNewWork)
  */
 let inputTitle // Balise <input> dans le formulaire
 /** selectCategory
- * addNewWork() activeButton() objectNewWork() 
+ * Utilisé par les par les fonctions: addNewWork() activeButton() objectNewWork() 
  * button.addEventListener("click", objectNewWork)
  */
 let selectCategory // Balise <select> dans le formulaire
 /** photo
- * addNewWork() objectNewWork() urlPhoto()
+ * Utilisé par les fonctions: addNewWork() objectNewWork() urlPhoto()
  * button.addEventListener("click", objectNewWork)
  */
 let photo // Fichier choisie dans le formulaire
@@ -49,7 +49,7 @@ let photo // Fichier choisie dans le formulaire
 function returnBtn (){
     const arrowLeft = document.createElement("i")
     arrowLeft.classList.add("fa-solid", "fa-arrow-left")
-    
+
     navArea.appendChild(arrowLeft)
     arrowLeft.addEventListener("click", () => {
         resetModal()
@@ -87,7 +87,7 @@ function resetModal() {
  *  @function resetModal Efface le contenue de la modal
  */
 function turnOffModal(turnOff, modalOverlay) {
-    turnOff.addEventListener("click", (event) => {
+    turnOff.addEventListener("click", () => {
         resetModal()
         modalOverlay.style.display = "none"
     })
@@ -277,7 +277,8 @@ function creatFormulaire() {
     // Cree la balise <form>
     const form = document.createElement("form") //dois je luis donner des atribut action et methode?
     form.id = "new-post"
-    form.enctype = "multipart/form-data"
+    form.enctype = "multipart/form-data" //pour envoyer un fichier
+    // je reajoute action et methode?
     
     // Implémenter le contenue de la la balise <form>
     form.innerHTML = `
@@ -291,13 +292,13 @@ function creatFormulaire() {
         <fieldset class="text-fieldset-modal">
             <div>
                 <label for="titleInput" class="modal-label">Titre</label>
-                <input type="text" id="titleInput" name="title" required/>
+                <input type="text" id="titleInput" name="title" required  placeholder="Titre du projet"/>
             </div>
                 
             <div>
                 <label for="categorySelect" class="modal-label">Catégorie</label>
                 <select id="categorySelect" name="category" required/>
-                    <option value="" disabled selected>
+                    <option value="" disabled selected>Category du projet</option>
                     <option value="1">Objets</option>
                     <option value="2">Appartements</option>
                     <option value="3">Hotels & restaurants</option>
@@ -451,7 +452,7 @@ function displayModal() {
 
     // Gestion du bouton
     button.innerText = "Ajouter une photo"
-    button.addEventListener("click", displayFormulaire)
+    button.addEventListener("click", () => displayFormulaire(button, title,))
 
     // Retirer un travaille posté sur le site, setTimeout 500ms pour eviter les beug ci l'utilisatuer apuit trop vite
     setTimeout(removeWork(galleryModal), 500)

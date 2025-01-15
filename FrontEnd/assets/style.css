@@ -227,6 +227,10 @@ main {
 	width: 33.33%;
 }
 
+#modalButton {
+	cursor: pointer
+}
+
 .filter-area {
 	display: flex;
 	justify-content: center;
