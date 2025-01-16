@@ -15,7 +15,7 @@ function verifyEmail(email){
 /** Envoyer les identifiants de connexion via une requête API et reçoit un id et un token utilisateur.
  * @async
  * @throws {Error} Si la requête échoue ou si une erreur HTTP se produit.
- * @param {object} loginId {email, pasword} de l'utilisateur
+ * @param {Objet} loginId {email, pasword} de l'utilisateur
  */
 async function postId(loginId) {
     try{

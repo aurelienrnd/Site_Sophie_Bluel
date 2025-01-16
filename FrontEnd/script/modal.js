@@ -1,41 +1,11 @@
 import {displayWorks, works, galleryPortfolio, getWorks} from "./homePage.js"
-
-/** navArea
- * Utilisé par les fonction: returnBtn() resetModal()
- * button.addEventListener("click", displayFormulaire) ---> returnBtn()
- */
 const navArea = document.getElementById("nav-return")
-/** title
- * Utilisé par les fonctions: displayFormulaire() displayModal()
- * button.addEventListener("click", displayFormulaire)
- */
 const title = document.getElementById("title-modal")
-/** main
- * Utilisé par les par les fonctions: resetModal() displayFormulaire
- * button.addEventListener("click", displayFormulaire)
- */
 const main = document.getElementById("main-modal")
-/** button
- * Utilisé par les par les fonctions: resetModal() activeButton() addNewWork() displayFormulaire() displayModal()
- * button.addEventListener("click", displayFormulaire)
- * button.addEventListener("click", objectNewWork)
- */
 const button = document.getElementById("modal-btn")
-/** inputTitle
- * Utilisé par les par les fonctions: addNewWork() activeButton() objectNewWork() 
- * button.addEventListener("click", objectNewWork)
- */
-let inputTitle // Balise <input> dans le formulaire
-/** selectCategory
- * Utilisé par les par les fonctions: addNewWork() activeButton() objectNewWork() 
- * button.addEventListener("click", objectNewWork)
- */
-let selectCategory // Balise <select> dans le formulaire
-/** photo
- * Utilisé par les fonctions: addNewWork() objectNewWork() urlPhoto()
- * button.addEventListener("click", objectNewWork)
- */
-let photo // Fichier choisie dans le formulaire
+let inputTitle // Balise <input> dans le formulaire crée par la fonction creatFormulaire
+let selectCategory // Balise <select> dans le formulaire crée par la fonction creatFormulaire
+let photo // Fichier choisie dans le formulaire crée par la fonction creatFormulaire
 
 
 
@@ -104,11 +74,11 @@ function turnOffModal(turnOff, modalOverlay) {
 /** Affiche les nouveaux travaux dans les differents portfolio.
  *  @param {string} url Url de la photo choisie dans le formulaire
  *  @param {string} workTitle Le titre du nouveau travail a ajouter 
- *  @param {number} categoryId La catégory du nouveaux travail a ajouter
- *  @function getWorks() Récupérer la liste des travaux via une requête API.
- *  @function resetModal() Efface le contenue de la modal
- *  @function displayModal() Affiche la page gallery de la modal
- *  @function displayWorks() Modifier le DOM pour y afficher des posts
+ *  @param {number} workCategory La catégory du nouveaux travail a ajouter
+ *  @function getWorks Récupérer la liste des travaux via une requête API.
+ *  @function resetModal Efface le contenue de la modal
+ *  @function displayModal Affiche la page gallery de la modal
+ *  @function displayWorks Modifier le DOM pour y afficher des posts
  *  @works Tableaux contenant les différent travaux obtenue apres requête api avec getWorks() 
  */
 async function displayNewWork(url, workTitle, workCategory) {
@@ -133,8 +103,8 @@ async function displayNewWork(url, workTitle, workCategory) {
 }
 
 /** Envoie une requête HTTP post pour ajouter un travail.
- *  @param {object} newWork Objet a envoyer a l'api
- *  @param {object} user Objet contenant les info de l'utilisateur
+ *  @param {Objet} newWork Objet a envoyer a l'api
+ *  @param {Objet} user Objet contenant les info de l'utilisateur
  *  @returns {Promise} La requête a échoué ou non.
  *  @throws {Error} Si la requête échoue ou si une erreur HTTP se produit.
  */
@@ -191,7 +161,7 @@ function activeButton() {
 /** Récupérer l'url de la photo choisie dans le formulaire.
  *  @param {function} callback prend l'url en paramaitre
  *  @param {string} workTitle Le titre du nouveau travail a ajouter 
- *  @param {number} categoryId La catégory du nouveaux travail a ajouter
+ *  @param {number} workCategory La catégory du nouveaux travail a ajouter
  *  @photo Fichier choisie dans le formulaire
  */
 function urlPhoto(callback, workTitle, workCategory){
@@ -350,7 +320,7 @@ function displayFormulaire() {
 /** Supprime un travail des galeries et du tableaux works.
  *  @param {HTMLElement} galleryModal Une balise <div> qui contient les différent travaux a afficher dasn la modal
  *  @param {number} id Identifiant unique du travail a supprimer
- *  @param {HTMLElement} Modalpost Balise <figure> contenant un travail dans la modal
+ *  @param {HTMLElement} modalPost Balise <figure> contenant un travail dans la modal
  *  @galleryPortfolio balise <div> ou sont contenue les travaux dans la section portfolio
  *  @works Tableaux contenant les différent travaux obtenue apres requête api avec getWorks()
  *  @galleryModal Une balise <div> qui contient les différent travaux a afficher dasn la modal
@@ -381,7 +351,7 @@ function removeDispalyWork(galleryModal, id, modalPost) {
 /** Envoie une requête HTTP DELETE pour supprimer un travail.
  *  @async
  *  @param {number} id Identifiant unique du travail a supprimer
- *  @param {object} user Objet contenant les info de l'utilisateur
+ *  @param {Objet} user Objet contenant les info de l'utilisateur
  *  @return {true} si la requete reussie
  *  @throws {Error} Si la requête échoue ou si une erreur HTTP se produit.
  */

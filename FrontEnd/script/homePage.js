@@ -14,7 +14,6 @@ export let works // Tableaux contenant les différent travaux obtenue apres requ
 
 
 
-
 /**  Récupérer la liste des travaux via une requête API.
  * @async
  * @returns {Promise<Object[]>} Un tableau d'objets représentant les travaux.
@@ -35,7 +34,7 @@ export async function getWorks() {
 
 /**  Modifier le DOM pour y afficher des posts
  *  @export
- *  @param {object} arrayWork Un tableau contenant les travaux à afficher.
+ *  @param {Array} arrayWork Un tableau contenant les travaux à afficher.
  *  @param {HtmlElement} gallery Une div html ou afficher les travaux
  */
 export function displayWorks(arrayWork, gallery) {
@@ -59,7 +58,7 @@ export function displayWorks(arrayWork, gallery) {
 
 /** Filtre les travaux a afficher selon le bouton cliquer.
  * @gallery Une div html dans le DOM
- * @param {object} arrayWork Un tableau contenant les travaux à afficher..
+ * @param {Array} arrayWork Un tableau contenant les travaux à afficher..
  * @param {HtmlElement} gallery Une div html ou afficher les travaux
  * @function displayWorks Modifier le DOM pour y afficher des posts
  */
