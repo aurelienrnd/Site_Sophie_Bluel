@@ -59,7 +59,7 @@ function eventFilter(arrayWork, gallery) {
     const boutonList = document.querySelectorAll(".filter-button");
     boutonList.forEach(button => {
         button.addEventListener("click", (event) =>{
-            const buttonTarget = Number(event.target.id);
+            const buttonTarget = Number(event.target.id) // crée une variable type number a partir de l'id du bouton
 
             if (buttonTarget){ // Ci superieur a 0 le bouton = true
                 // Filtre les travaux dont l'id category est le meme que le bouton
@@ -213,7 +213,6 @@ async function displayEditionOn(introduction, body) {
 const introduction = document.getElementById("introduction")
 const body = document.querySelector("body")
 const reponse = localStorage.getItem("user")
-const user = JSON.parse(reponse)
 if (!reponse){
     displayEditionOff(introduction, body)
 } else{

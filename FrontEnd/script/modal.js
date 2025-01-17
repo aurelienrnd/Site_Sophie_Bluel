@@ -203,12 +203,11 @@ function addNewWork() {
 
     // Récupérer le fichier photo lorsqu'il est chargé dans le formulaire et affiche sa preview. 
     photoInput.addEventListener("change", () => {
-        photo = photoInput.files[0] //input.file revoie un tableau de un ellement car un seul fichier est sectioner, [0] pour ne recuperer que l'element seul
-        
+        photo = photoInput.files[0] //input.file renvoie un tableau de un ellement car un seul fichier est sectioner, [0] pour ne recuperer que l'element seul
         urlPhoto(previewPhoto)
+
         // Active le bouton du formulaire
         activeButton(inputTitle, selectCategory)
-
         // Créer un objet contenant les données du nouveaux travail
         button.addEventListener("click", objectNewWork)
     })
@@ -222,7 +221,7 @@ function addNewWork() {
  *  @selectCategory Balise <select> dans le formulaire de la modal
  */
 async function objectNewWork() {
-    // Récupère les autre données du formulaire
+    // Récupère les données titre et categorie du formulaire
     const workTitle = inputTitle.value
     const workCategory = selectCategory.value
     // Cree un objet avec les données du formulaire
@@ -231,7 +230,7 @@ async function objectNewWork() {
     newWork.append("category", workCategory)
     newWork.append("image", photo)
     
-    // Envoie les données via une requette post
+    // Envoie les données via une requette post et affiche le travaille sur le site
     const user = localStorage.getItem("user")
     if(await postNewWork(newWork, user)){
         urlPhoto(displayNewWork, workTitle, workCategory)
@@ -243,10 +242,9 @@ async function objectNewWork() {
  */
 function creatFormulaire() {
     // Cree la balise <form>
-    const form = document.createElement("form") //dois je luis donner des atribut action et methode?
+    const form = document.createElement("form")
     form.id = "new-post"
     form.enctype = "multipart/form-data" //pour envoyer un fichier
-    // je reajoute action et methode?
     
     // Implémenter le contenue de la la balise <form>
     form.innerHTML = `

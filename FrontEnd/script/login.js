@@ -61,9 +61,10 @@ async function postId(loginId) {
 // Recuperation des identifiant de connection dans le formulaire
 const form = document.getElementById("login-form")
 form.addEventListener("submit", async(event) => {
+    event.preventDefault()
     const email = document.getElementById("login-email").value
     const password = document.getElementById("login-password").value
-    event.preventDefault()
+    
 
     // si le mail est valide
     if(verifyEmail(email)){
