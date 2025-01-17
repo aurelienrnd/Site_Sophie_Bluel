@@ -11,13 +11,16 @@ export const galleryPortfolio = document.getElementById("portfolio-gallery");
  */
 export let works // Tableaux contenant les différent travaux obtenue apres requête api avec getWorks()
 
+
+
+
 /**  Récupérer la liste des travaux via une requête API.
  * @async
  * @returns {Promise<Object[]>} Un tableau d'objets représentant les travaux.
  * @throws {Error} Si la requête échoue ou si une erreur HTTP se produit.
  * @works Variable global contenant les différent travaux obtenue apres requête api
  */
-async function getWorks() {
+export async function getWorks() {
     try{
         const reponse = await fetch("http://localhost:5678/api/works");
         if (!reponse.ok){
@@ -31,7 +34,7 @@ async function getWorks() {
 
 /**  Modifier le DOM pour y afficher des posts
  *  @export
- *  @param {object} arrayWork Un tableau contenant les travaux à afficher.
+ *  @param {Array} arrayWork Un tableau contenant les travaux à afficher.
  *  @param {HtmlElement} gallery Une div html ou afficher les travaux
  */
 export function displayWorks(arrayWork, gallery) {
@@ -55,7 +58,7 @@ export function displayWorks(arrayWork, gallery) {
 
 /** Filtre les travaux a afficher selon le bouton cliquer.
  * @gallery Une div html dans le DOM
- * @param {object} arrayWork Un tableau contenant les travaux à afficher..
+ * @param {Array} arrayWork Un tableau contenant les travaux à afficher..
  * @param {HtmlElement} gallery Une div html ou afficher les travaux
  * @function displayWorks Modifier le DOM pour y afficher des posts
  */
@@ -100,14 +103,14 @@ function createButton(name, id, filterArea) {
  */
 function getCategories(filterArea) {
     // Creation de deux tableaux regroupant les id et les nom de chaque category
-    const SetName = new Set;
-    const SetId = new Set;
+    const setName = new Set;
+    const setId = new Set;
     works.forEach(element => {
-        SetId.add(element.categoryId);
-        SetName.add(element.category.name);
+        setId.add(element.categoryId);
+        setName.add(element.category.name);
     });
-    const id = Array.from(SetId);
-    const name = Array.from(SetName);
+    const id = Array.from(setId);
+    const name = Array.from(setName);
 
     // Creation de bouton avec le bon nom et id
     for(let i=0; i<id.length; i++){
@@ -121,18 +124,21 @@ function getCategories(filterArea) {
  *  @function getCategories Récupère la liste des categories depuis la requete API de get works.
  */
 function displayButton(gallery) {
+
+    console.log(gallery.children.length)
     // Creation de la div qui accueilleront les bouton
     const filterArea = document.createElement("div");
     filterArea.classList = "filter-area"
     const portfolio = document.getElementById("portfolio");
-    portfolio.appendChild(filterArea);
     portfolio.insertBefore(filterArea, gallery);
 
-    // Créer un bouton "Tous"
-    createButton("Tous", 0, filterArea);
-
-    // Creer les autres bouton associer au bon texte
-    getCategories(filterArea);
+    // Verification ci des traveaux sont poster dans le portfolio
+    if (gallery.children.length > 0) {
+        // Créer un bouton "Tous"
+        createButton("Tous", 0, filterArea);
+        // Recupere les categories pour afficher les boutons 
+        getCategories(filterArea);
+    }
 };
 
 /** Déconnecter l'utilisateur
@@ -165,24 +171,25 @@ function logout() {
  */
 async function displayEditionOff(introduction, body) {
     // Masque les elements qui ne doivent pas apparaître en edition off
-    const hiddenElement = document.querySelectorAll(".editionElements")
+    const hiddenElement = document.querySelectorAll(".edition-elements")
     hiddenElement.forEach(element => {
         element.style.display = "none"
     })
 
     // Changement de class css en mode éditionOff
-    body.classList.remove("editionActive")
-    introduction.classList.remove("editionActive")
-    galleryPortfolio.classList.remove("editionActive")
+    body.classList.remove("edition-active")
+    introduction.classList.remove("edition-active")
+    galleryPortfolio.classList.remove("edition-active")
 
-    body.classList.add("editionOff")
-    introduction.classList.add("editionOff")
-    galleryPortfolio.classList.add("editionOff")
+    body.classList.add("edition-off")
+    introduction.classList.add("edition-off")
+    galleryPortfolio.classList.add("edition-off")
     
     await getWorks() // return works
-    displayButton(galleryPortfolio)
     displayWorks(works, galleryPortfolio)
+    displayButton(galleryPortfolio)
     eventFilter(works, galleryPortfolio)
+    console.log(works)
 
 }
 
@@ -197,20 +204,19 @@ async function displayEditionOff(introduction, body) {
 */
 async function displayEditionOn(introduction, body) {
     // Changement de class css en mode éditiOn
-    body.classList.remove("editionOff")
-    introduction.classList.remove("editionOff")
-    galleryPortfolio.classList.remove("editionOff")
+    body.classList.remove("edition-off")
+    introduction.classList.remove("edition-off")
+    galleryPortfolio.classList.remove("edition-off")
 
-    body.classList.add("editionActive")
-    introduction.classList.add("editionActive")
-    galleryPortfolio.classList.add("editionActive")
+    body.classList.add("edition-active")
+    introduction.classList.add("edition-active")
+    galleryPortfolio.classList.add("edition-active")
     
     await getWorks()
     displayWorks(works, galleryPortfolio)
     logout()
     modalOn()
-
-    
+    console.log(works)
 }
 
 

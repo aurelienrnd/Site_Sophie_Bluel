@@ -132,12 +132,12 @@ body {
 	font-size: 14px;
 }
 
-body.editionActive {
+body.edition-active {
 	margin-top: 59px;
 	padding-top: 38px;
 }
 
-body.editionOff {
+body.edition-off {
 	margin-top: 0px;
 	padding-top: 50px;
 }
@@ -179,11 +179,11 @@ main {
 	align-items: center;
 }
 
-#introduction.editionOff{
+#introduction.edition-off{
 	margin: 139px 0px;
 }
 
-#introduction.editionActive{
+#introduction.edition-active{
 	margin-top: 92px;
 	margin-bottom: 139px;
 }
@@ -220,10 +220,15 @@ main {
 
 #portfolio h2 {
 	width: 33.33%;
+	text-align: center;
 }
 
-#modalButton{
+#container-modal-button{
 	width: 33.33%;
+}
+
+#modal-button {
+	cursor: pointer
 }
 
 .filter-area {
@@ -258,7 +263,7 @@ main {
 	margin-bottom: 79px;
 }
 
-#portfolio-gallery.editionActive{
+#portfolio-gallery.edition-active{
 	margin-top: 92px;
 }
 

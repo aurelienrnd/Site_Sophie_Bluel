@@ -15,7 +15,7 @@ function verifyEmail(email){
 /** Envoyer les identifiants de connexion via une requête API et reçoit un id et un token utilisateur.
  * @async
  * @throws {Error} Si la requête échoue ou si une erreur HTTP se produit.
- * @param {object} loginId {email, pasword} de l'utilisateur
+ * @param {Objet} loginId {email, pasword} de l'utilisateur
  */
 async function postId(loginId) {
     try{
@@ -37,9 +37,20 @@ async function postId(loginId) {
 
     } catch (error){
         console.log(error)
-        if(error.message === "Erreur:401"){
-            alert("L'email ou le mot de passe ne corespondent pas")
+        switch(error.message){
+
+            case "Erreur:401":
+            alert("Not Authorized")
+            break
+
+            case "Erreur:404":
+            alert("User not found")
+            break
+
+            default :
+            alert("Connection échoué")
         }
+
         console.error("Connection echouer", error.message)
     }
 }
