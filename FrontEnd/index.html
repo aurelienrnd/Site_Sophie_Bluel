@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr-FR">
 <head>
 	<meta charset="UTF-8">
 	<title>Sophie Bluel - Architecte d'intérieur</title>
@@ -9,23 +9,33 @@
 	<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap" rel="stylesheet">
 	<meta name="description" content="">
 	<link rel="stylesheet" href="./assets/style.css">
+	<link rel="stylesheet" href="./assets/modal.css">
+	<script src="https://kit.fontawesome.com/99bbbefc9f.js" crossorigin="anonymous"></script>
+	<script src="https://kit.fontawesome.com/99bbbefc9f.js" crossorigin="anonymous"></script>
+	<script async src="script/homePage.js" type="module"></script>
 </head>
-<body>
+<body class="edition-off"> 
+<div id="edit-bar" class="edition-elements"> <!-- Mode edition off : style display:none -->
+	<i class="fa-regular fa-pen-to-square"></i><span>Mode édition</span>
+</div>
+	
 <header>
 	<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
 	<nav>
 		<ul>
-			<li>projets</li>
-			<li>contact</li>
-			<li>login</li>
+			<li><a href="#portfolio">projets</a></li>
+			<li><a href="#contact">contact</a></li>
+			<li><a id="nav-login" href="./login.html">login</a>
+				<a id="nav-logout" class="edition-elements" href="#">logout</a></li>
 			<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
 		</ul>
 	</nav>
 </header>
+
 <main>
-	<section id="introduction">
+	<section id="introduction"> 
 		<figure>
-			<img src="./assets/images/sophie-bluel.png" alt="">
+			<img src="./assets/images/sophie-bluel.png" alt="Photo de Sophie Bluel">
 		</figure>
 		<article>
 			<h2>Designer d'espace</h2>
@@ -34,65 +44,56 @@
 			<p>En cas de besoin, une équipe pluridisciplinaire peut-être constituée : architecte DPLG, décorateur(trice)</p>
 		</article>
 	</section>
+
 	<section id="portfolio">
-		<h2>Mes Projets</h2>
-		<div class="gallery">
-			<figure>
-				<img src="assets/images/abajour-tahina.png" alt="Abajour Tahina">
-				<figcaption>Abajour Tahina</figcaption>
-			</figure>
-			<figure>
-				<img src="assets/images/appartement-paris-v.png" alt="Appartement Paris V">
-				<figcaption>Appartement Paris V</figcaption>
-			</figure>
-			<figure>
-				<img src="assets/images/restaurant-sushisen-londres.png" alt="Restaurant Sushisen - Londres">
-				<figcaption>Restaurant Sushisen - Londres</figcaption>
-			</figure>
-			<figure>
-				<img src="assets/images/la-balisiere.png" alt="Villa “La Balisiere” - Port Louis">
-				<figcaption>Villa “La Balisiere” - Port Louis</figcaption>
-			</figure>
-			<figure>
-				<img src="assets/images/structures-thermopolis.png" alt="Structures Thermopolis">
-				<figcaption>Structures Thermopolis</figcaption>
-			</figure>
-			<figure>
-				<img src="assets/images/appartement-paris-x.png" alt="Appartement Paris X">
-				<figcaption>Appartement Paris X</figcaption>
-			</figure>
-			<figure>
-				<img src="assets/images/le-coteau-cassis.png" alt="Pavillon “Le coteau” - Cassis">
-				<figcaption>Pavillon “Le coteau” - Cassis</figcaption>
-			</figure>
-			<figure>
-				<img src="assets/images/villa-ferneze.png" alt="Villa Ferneze - Isola d’Elba">
-				<figcaption>Villa Ferneze - Isola d’Elba</figcaption>
-			</figure>
-			<figure>
-				<img src="assets/images/appartement-paris-xviii.png" alt="Appartement Paris XVIII">
-				<figcaption>Appartement Paris XVIII</figcaption>
-			</figure>
-			<figure>
-				<img src="assets/images/bar-lullaby-paris.png" alt="Bar “Lullaby” - Paris">
-				<figcaption>Bar “Lullaby” - Paris</figcaption>
-			</figure>
-			<figure>
-				<img src="assets/images/hotel-first-arte-new-delhi.png" alt="Hotel First Arte - New Delhi">
-				<figcaption>Hotel First Arte - New Delhi</figcaption>
-			</figure>
+		<div class="title-portfolio">
+			<h2>Mes Projets</h2>
+			
+			<div id="container-modal-button">
+				<span id="modal-button" class="edition-elements" > <!-- Mode edition off : style display:none -->
+					<i class="fa-regular fa-pen-to-square"></i>modifier
+				</span>
+			</div>
+
+		</div>
+
+		<aside id="modal-overlay">
+			<section id="modal">
+				<div id="header-modal">
+					<nav>
+						<ul id="nav-modal">
+							<li><i class="fa-solid fa-xmark"></i></li>
+							<li id="nav-return"><!-- balise <i> implémenter avec modal.js --></li>
+						</ul>
+					</nav>
+					<h3 id="title-modal"><!-- implémenter avec modal.js --></h3>
+				</div>
+
+				<div id="main-modal"><!-- contenue implémenter avec modal.js --></div>
+
+				<div id="footer-modal">
+					<button id="modal-btn"><!-- implémenter avec modal.js --></button>
+				</div>
+			</section>					
+		</aside>
+
+		<!-- Mode edition off : ajout d'une div contenant des btns filtre avec a home_page.js -->
+
+		<div id="portfolio-gallery">
+			<!-- Ajout de balises figure contenant différents post avec home_page.js -->
 		</div>
 	</section>
+
 	<section id="contact">
 		<h2>Contact</h2>
 		<p>Vous avez un projet ? Discutons-en !</p>
 		<form action="#" method="post">
 			<label for="name">Nom</label>
-			<input type="text" name="name" id="name">
+			<input type="text" name="name" id="name" placeholder=" Votre nom">
 			<label for="email">Email</label>
-			<input type="email" name="email" id="email">
+			<input type="email" name="email" id="email" placeholder=" Votre email">
 			<label for="message">Message</label>
-			<textarea name="message" id="message" cols="30" rows="10"></textarea>
+			<textarea name="message" id="message" cols="30" rows="10" placeholder=" Votre messsage ici"></textarea>
 			<input type="submit" value="Envoyer">
 		</form>
 	</section>
@@ -101,7 +102,7 @@
 <footer>
 	<nav>
 		<ul>
-			<li>Mentions Légales</li>
+			<li><a>Mentions Légales</a></li>
 		</ul>
 	</nav>
 </footer>
