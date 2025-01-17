@@ -74,7 +74,7 @@ function turnOffModal(turnOff, modalOverlay) {
 /** Affiche les nouveaux travaux dans les differents portfolio.
  *  @param {string} url Url de la photo choisie dans le formulaire
  *  @param {string} workTitle Le titre du nouveau travail a ajouter 
- *  @param {number} workCategory La catégory du nouveaux travail a ajouter
+ *  @param {string} workCategory La catégory du nouveaux travail a ajouter
  *  @function getWorks Récupérer la liste des travaux via une requête API.
  *  @function resetModal Efface le contenue de la modal
  *  @function displayModal Affiche la page gallery de la modal
@@ -82,24 +82,22 @@ function turnOffModal(turnOff, modalOverlay) {
  *  @works Tableaux contenant les différent travaux obtenue apres requête api avec getWorks() 
  */
 async function displayNewWork(url, workTitle, workCategory) {
+    resetModal()
     if(works.length === 0){
         // Si aucun travail n'a été postée sur le site works = [] , requête api pour recuperer les traveaux
         await getWorks()
-        resetModal()
         displayModal()
         displayWorks(works, galleryPortfolio)
         
     } else {
-        //autrement, récupérer l'id du dernier travail puis creer un objet a rajouter a works
+        //Autrement, récupération de l'id du dernier travail puis creeation d'un objet a rajouter a works
         const lastWorkId = works[works.length-1].id
         const newWorkId = lastWorkId + 1
         const newWork = {id: newWorkId, title: workTitle, categoryId: Number(workCategory), imageUrl: url}
         works.push(newWork)
-        resetModal()
         displayModal()
         displayWorks([newWork], galleryPortfolio)
     }
-    
 }
 
 /** Envoie une requête HTTP post pour ajouter un travail.
@@ -161,7 +159,7 @@ function activeButton() {
 /** Récupérer l'url de la photo choisie dans le formulaire.
  *  @param {function} callback prend l'url en paramaitre
  *  @param {string} workTitle Le titre du nouveau travail a ajouter 
- *  @param {number} workCategory La catégory du nouveaux travail a ajouter
+ *  @param {string} workCategory La catégory du nouveaux travail a ajouter
  *  @photo Fichier choisie dans le formulaire
  */
 function urlPhoto(callback, workTitle, workCategory){
@@ -268,13 +266,13 @@ function creatFormulaire() {
             <div>
                 <label for="category-select" class="modal-label">Catégorie</label>
                 <select id="category-select" name="category" required/>
-                    <option value="" disabled selected>Category du projet</option>
+                    <option value="" disabled selected>Categories du projet</option>
                     <option value="1">Objets</option>
                     <option value="2">Appartements</option>
                     <option value="3">Hotels & restaurants</option>
                 </select>
             </div>
-        </fieldset>` //utilisation de data list au lieux de select?
+        </fieldset>`
     return form
 }
 
@@ -319,13 +317,20 @@ function displayFormulaire() {
 
 /** Supprime un travail des galeries et du tableaux works.
  *  @param {HTMLElement} galleryModal Une balise <div> qui contient les différent travaux a afficher dasn la modal
- *  @param {number} id Identifiant unique du travail a supprimer
+ *  @param {string} id Identifiant unique du travail a supprimer
  *  @param {HTMLElement} modalPost Balise <figure> contenant un travail dans la modal
  *  @galleryPortfolio balise <div> ou sont contenue les travaux dans la section portfolio
  *  @works Tableaux contenant les différent travaux obtenue apres requête api avec getWorks()
  *  @galleryModal Une balise <div> qui contient les différent travaux a afficher dasn la modal
  */
-function removeDispalyWork(galleryModal, id, modalPost) {    
+function removeDispalyWork(galleryModal, id, modalPost) {
+    // Retirer un travail de tableaux works
+    works.forEach((element, index) => {
+        if (element.id === Number(id)) {
+            works.splice(index, 1)
+        }
+    })
+
     // Retire un travail dans la galerie de la modal
     galleryModal.removeChild(modalPost)
 
@@ -337,20 +342,11 @@ function removeDispalyWork(galleryModal, id, modalPost) {
             galleryPortfolio.removeChild(element)
         }
     })
-
-    // Retirer un travail de tableaux works
-    works.forEach(element => {
-        if (element.id == Number(id)) {
-            works.splice(element, 1)
-        }
-    })
-    
-    console.log(works)
 }
 
 /** Envoie une requête HTTP DELETE pour supprimer un travail.
  *  @async
- *  @param {number} id Identifiant unique du travail a supprimer
+ *  @param {string} id Identifiant unique du travail a supprimer
  *  @param {Objet} user Objet contenant les info de l'utilisateur
  *  @return {true} si la requete reussie
  *  @throws {Error} Si la requête échoue ou si une erreur HTTP se produit.
@@ -375,7 +371,7 @@ async function deleteWorks(id, user) {
     } catch (error){
         console.error(`Impossible de supprimer les donnees : ${error.message}`);
     };
-};
+}
 
 /** Retirer un travaille posté sur le site
  *  @param {HTMLElement} galleryModal Une balise <div> qui contient les différent travaux a afficher dasn la modal
@@ -385,18 +381,25 @@ async function deleteWorks(id, user) {
 function removeWork(galleryModal) {
     // Créer une liste de tout les logos trash-can
     const trashCan = document.querySelectorAll(".fa-trash-can")
+    let eventTrashCan = false // Éviter le spam de l'evenement en vérifient si un evenement est deja en cours
     
-    // Recuperation de l'id du travail a supprimer
     trashCan.forEach(element => {
         element.addEventListener("click", (event) => {
-            const post = event.target.parentElement
-            const id = post.getAttribute("work-id")
+            // si aucun evenement n'est en cours
+            if (!eventTrashCan) {
+                eventTrashCan = true
 
-            // Envoie d'une requête http delete pour supprimer un travail.
-            const user = localStorage.getItem("user")
-            if (deleteWorks(id, user)){
-                removeDispalyWork(galleryModal, id, post)
-            }
+                // Recuperation de l'id du travail a supprimer
+                const post = event.target.parentElement
+                const id = post.getAttribute("work-id")
+
+                // Envoie d'une requête http delete et supprime le travail des différentes galleries.
+                const user = localStorage.getItem("user")
+                if (deleteWorks(id, user)){
+                    removeDispalyWork(galleryModal, id, post)
+                }
+                setTimeout(() => { eventTrashCan = false }, 750); 
+            } 
         })
     })
 }
@@ -424,10 +427,8 @@ function displayModal() {
     button.innerText = "Ajouter une photo"
     button.addEventListener("click", displayFormulaire)
 
-    // Retirer un travaille posté sur le site, setTimeout 500ms pour eviter les beug ci l'utilisatuer apuit trop vite
-    setTimeout(removeWork(galleryModal), 500)
-    
-    console.log(works)
+    // Retirer un travaille posté sur le site
+    removeWork(galleryModal)
 }
 
 

@@ -1,14 +1,6 @@
 import {modalOn} from "./modal.js"
 
-/** galleryPortfolio
- * displayWork(), eventFilter(), displayButoon()
- * Exportation pour une utilisation dans displayWork()
- */
 export const galleryPortfolio = document.getElementById("portfolio-gallery");
-/**  works
- * displayWork(), eventFilter(), displayButoon()
- * Exportation pour une utilisation dans modal.js()
- */
 export let works // Tableaux contenant les différent travaux obtenue apres requête api avec getWorks()
 
 
@@ -30,7 +22,7 @@ export async function getWorks() {
     } catch (error){
         console.error(`Impossible de récupérer les donnees : ${error.message}`);
     };
-};
+}
 
 /**  Modifier le DOM pour y afficher des posts
  *  @export
@@ -54,7 +46,7 @@ export function displayWorks(arrayWork, gallery) {
         // Affichage dans le DOM
         gallery.appendChild(figure);
     });
-};
+}
 
 /** Filtre les travaux a afficher selon le bouton cliquer.
  * @gallery Une div html dans le DOM
@@ -81,7 +73,7 @@ function eventFilter(arrayWork, gallery) {
             };
         });
     });
-};
+}
 
 /** Créer et associe le bon texte et le bon Id a chaque bouton.
  * @param {HTMLElement} filterArea Section html ou se trouve les boutons
@@ -94,7 +86,7 @@ function createButton(name, id, filterArea) {
     button.classList.add("filter-button");
     button.id = id;
     filterArea.appendChild(button);
-};
+}
 
 /**  Récupère la liste des categories depuis la requete API de get works.
  * @param {HTMLElement} filterArea Section html ou se trouve les boutons
@@ -116,7 +108,7 @@ function getCategories(filterArea) {
     for(let i=0; i<id.length; i++){
         createButton(name[i], id[i], filterArea);
     };
-};
+}
 
 /** Ajoute au DOM des bouton filter.
  *  @param {HtmlElement} gallery Une div html ou afficher les travaux
@@ -124,8 +116,6 @@ function getCategories(filterArea) {
  *  @function getCategories Récupère la liste des categories depuis la requete API de get works.
  */
 function displayButton(gallery) {
-
-    console.log(gallery.children.length)
     // Creation de la div qui accueilleront les bouton
     const filterArea = document.createElement("div");
     filterArea.classList = "filter-area"
@@ -139,7 +129,7 @@ function displayButton(gallery) {
         // Recupere les categories pour afficher les boutons 
         getCategories(filterArea);
     }
-};
+}
 
 /** Déconnecter l'utilisateur
  */
@@ -189,8 +179,6 @@ async function displayEditionOff(introduction, body) {
     displayWorks(works, galleryPortfolio)
     displayButton(galleryPortfolio)
     eventFilter(works, galleryPortfolio)
-    console.log(works)
-
 }
 
 /** Home page edition mode on
@@ -216,7 +204,6 @@ async function displayEditionOn(introduction, body) {
     displayWorks(works, galleryPortfolio)
     logout()
     modalOn()
-    console.log(works)
 }
 
 
@@ -227,7 +214,6 @@ const introduction = document.getElementById("introduction")
 const body = document.querySelector("body")
 const reponse = localStorage.getItem("user")
 const user = JSON.parse(reponse)
-console.log(user)
 if (!reponse){
     displayEditionOff(introduction, body)
 } else{
