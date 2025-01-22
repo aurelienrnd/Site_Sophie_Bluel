@@ -37,18 +37,11 @@ async function postId(loginId) {
 
     } catch (error){
         console.log(error)
-        switch(error.message){
 
-            case "Erreur:401":
-            alert("Not Authorized")
-            break
-
-            case "Erreur:404":
-            alert("User not found")
-            break
-
-            default :
-            alert("Connection échoué")
+        if (error.message === "Erreur:401" || error.message === "Erreur:404") {
+            alert("Not Authorized");
+        } else {
+            console.error("Connexion échouée", error.message);
         }
 
         console.error("Connection echouer", error.message)
