@@ -138,7 +138,7 @@ async function postNewWork(newWork, user) {
  *  @selectCategory Balise <select> dans le DOM
  */
 function activeButton() {
-    if (inputTitle.value && selectCategory.value) {
+    if (inputTitle.value.trim() && selectCategory.value) {
         // Si le formulaire est remplie, le bouton se reactive
         button.disabled = false
         button.style.backgroundColor = " #1D6154"
@@ -148,7 +148,7 @@ function activeButton() {
         const form = [inputTitle, selectCategory]
         form.forEach ((element) => {
             element.addEventListener("change", () => {
-                inputTitle.value && selectCategory.value ? 
+                inputTitle.value.trim() && selectCategory.value ? 
                 (button.disabled = false, button.style.backgroundColor = " #1D6154" ) : 
                 (button.disabled = true, button.style.backgroundColor = " #A7A7A7")       
             })           
