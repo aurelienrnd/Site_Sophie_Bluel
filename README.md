@@ -13,4 +13,4 @@
 - JavaScript (Vanilla)
 - API REST (méthodes `GET`, `POST`, `DELETE`)*
 
-Pour demarer le serveur voir le fichier README dans le dossier Backend
+Pour demarrer le serveur voir le fichier README dans le dossier Backend
