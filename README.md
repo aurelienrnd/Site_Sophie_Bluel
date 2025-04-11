@@ -1,8 +1,16 @@
 # Portfolio-architecte-sophie-bluel
 
-Code du projet 6 d'intégrateur web.
+- Implémenter un système de connexion utilisateur sécurisé
+- Communiquer avec une API REST pour gérer les contenus
+- Créer une interface d’administration dynamique (ajout/suppression)
 
-## Information pour le lancer le code
+## Authentification
+- Validation de l’e-mail avec RegEx
+- Gestion des tokens JWT dans le `localStorage`
 
- - Lancer le backend depuis votre terminal en suivant les instruction du fichier ReadMe.
- - Si vous désirez afficher le code du backend et du frontend, faites le dans 2 instances de VSCode différentes pour éviter tout problème
+## Technologies utilisées
+- HTML5 / CSS3
+- JavaScript (Vanilla)
+- API REST (méthodes `GET`, `POST`, `DELETE`)*
+
+Pour demarer le serveur voir le fichier README dans le dossier Backend
